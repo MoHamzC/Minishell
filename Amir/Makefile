@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -g3 -Wall -Wextra -Werror -Iinclude
-SRCS = main.c src/tokenize.c
+SRCS = main.c src/tokenize.c src/expand.c src/env.c
 LIBS = include/libft/libft.a
 TARGET = minishell
 

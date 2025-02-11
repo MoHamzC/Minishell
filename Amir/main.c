@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:52 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/11 22:12:14 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/12 00:19:18 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,19 +29,20 @@ void	free_tokens(char **tokens)
 
 int main()
 {
-    char	*line = "                 ls -l | cat -e | echo \"Hello world!\"";
+    extern char **environ;
+    char	*line = "ls -l | $HOME | echo \"Hello world!\"";
     char	**tokens;
     int		i;
+    t_shell    shell;
 
-    tokens = tokenize(line);
+    shell.env = init_env(environ);
+    tokens = tokenize(line, shell.env);
     i = 0;
-    printf("Tokens: [");
     while (tokens[i])
     {
-        printf("\"%s\";", tokens[i]);
+        printf("Token %d: %s\n", i, tokens[i]);
         i++;
     }
-    printf("NULL]\n");
     free_tokens(tokens);
     return (0);
 }

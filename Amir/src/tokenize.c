@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:49 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/11 22:02:24 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/12 00:10:33 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*extract_token(char **line)
 	return (token);
 }
 
-char	**tokenize(char *line)
+char	**tokenize(char *line, t_env *env)
 {
 	char	**tokens;
 	int		nb_tokens;
@@ -93,7 +93,7 @@ char	**tokenize(char *line)
 			current++;
 		if (*current)
 		{
-			tokens[j] = extract_token(&current);
+			tokens[j] = expand_variables(extract_token(&current), env);
 			if (!tokens[j])
 				return (free_tokens(tokens), NULL);
 			j++;
