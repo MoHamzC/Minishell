@@ -1,6 +1,9 @@
 CC = cc
 CFLAGS = -g3 -Wall -Wextra -Werror -Iinclude
-SRCS = main.c src/tokenize.c src/expand.c src/env.c
+SRCS = main.c src/parsing/tokenization/tokenize.c src/parsing/tokenization/expand.c\
+			src/env.c src/parsing/tokenization/post_tokenize.c src/parsing/tokenization/expand_complex.c\
+			src/parsing/tokenization/utils.c src/parsing/tokenization/assign_token.c\
+			src/parsing/tokenization/pre_redir.c
 LIBS = include/libft/libft.a
 TARGET = minishell
 

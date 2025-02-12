@@ -6,24 +6,24 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:54:26 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/12 00:23:21 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/12 04:53:04 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "tokenize.h"
 
 char	*get_env_value(t_env *env, char *key)
 {
 	while (env)
 	{
-		if (ft_strncmp(env->key, key, ft_strlen(env->key)) == 0)
+		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0)
 			return (env->value);
 		env = env->next;
 	}
 	return ("");
 }
 
-static char	*append_char(char *s, char c)
+char	*append_char(char *s, char c)
 {
 	char	tmp[2];
 	char	*res;
@@ -35,7 +35,7 @@ static char	*append_char(char *s, char c)
 	return (res);
 }
 
-static char	*handle_dollar(char *str, int *i, t_env *env)
+char	*handle_dollar(char *str, int *i, t_env *env)
 {
 	int		j;
 	char	*var;

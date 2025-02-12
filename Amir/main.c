@@ -6,43 +6,56 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:52 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/12 00:19:18 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/12 05:37:29 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_tokens(char **tokens)
+void	free_tokens(t_token **tokens)
 {
 	int	i;
 
 	if (!tokens)
 		return;
 	i = 0;
-	while (tokens[i])
-	{
-		free(tokens[i]);
-		i++;
-	}
+	while (tokens[i] && tokens[i]->value) 
+    {
+        free(tokens[i]->value);
+        free(tokens[i]);
+        i++;
+    }
 	free(tokens);
 }
+
+/*
+** is_redir_token
+** Retourne 1 si le type correspond à une redirection.
+*/
+
 
 int main()
 {
     extern char **environ;
-    char	*line = "ls -l | $HOME | echo \"Hello world!\"";
-    char	**tokens;
+    char *line = "\'$USER\'\"$USER\" $USER cat > file | grep \"hello world\" >> file << EOF < file";
+    t_token	**tokens;
     int		i;
     t_shell    shell;
 
     shell.env = init_env(environ);
-    tokens = tokenize(line, shell.env);
+    tokens = take_ur_token_and_leave_me_alone(shell.env, line);
+    printf("%s\n", line);
     i = 0;
-    while (tokens[i])
+    while (tokens[i] && tokens[i]->value)
     {
-        printf("Token %d: %s\n", i, tokens[i]);
+        printf("tour Token %d: %s de type : %d\n", i, tokens[i]->value, tokens[i]->type);
         i++;
     }
-    free_tokens(tokens);
+    i = 0;
+    while (tokens[i] && tokens[i]->value)
+    {
+        printf("%s ", tokens[i]->value);
+        i++;
+    }
     return (0);
 }

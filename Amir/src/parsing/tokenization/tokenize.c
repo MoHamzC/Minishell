@@ -6,16 +6,11 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:49 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/12 00:10:33 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/12 05:48:46 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	ft_isspace(char c)
-{
-	return (c == ' ' || c == '\t' || c == '\n');
-}
+#include "tokenize.h"
 
 static int	skip_token(char *line, int i)
 {
@@ -76,15 +71,30 @@ char	*extract_token(char **line)
 	return (token);
 }
 
-char	**tokenize(char *line, t_env *env)
+int	wich_type(char *token)
 {
-	char	**tokens;
+	if (ft_strncmp(token, ">", 2) == 0)
+		return (REDIROUT);
+	if (ft_strncmp(token, ">>", 2) == 0)
+		return (APPEND);
+	if (ft_strncmp(token, "<", 2) == 0)
+		return (REDIRIN);
+	if (ft_strncmp(token, "<<", 2) == 0)
+		return (HERE_DOC);
+	if (ft_strncmp(token, "|", 2) == 0)
+		return (PIPE);
+	return (WORD);
+}
+
+t_token	**tokenize(char *line)
+{
+	t_token	**tokens;
 	int		nb_tokens;
 	int		j;
 	char	*current;
 
 	nb_tokens = count_tokens(line);
-	tokens = malloc(sizeof(char *) * (nb_tokens + 1));
+	tokens = malloc(sizeof(t_token *) * (nb_tokens + 1));
 	j = 0;
 	current = line;
 	while (*current)
@@ -93,7 +103,8 @@ char	**tokenize(char *line, t_env *env)
 			current++;
 		if (*current)
 		{
-			tokens[j] = expand_variables(extract_token(&current), env);
+			tokens[j] = malloc(sizeof(t_token));
+			tokens[j]->value = extract_token(&current);
 			if (!tokens[j])
 				return (free_tokens(tokens), NULL);
 			j++;
