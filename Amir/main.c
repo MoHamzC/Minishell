@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:52 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/12 06:10:30 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/12 06:12:21 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int main()
     i = 0;
     while (tokens[i] && tokens[i]->value)
     {
-        printf("tour Token %d: %s de type : %d\n", i, tokens[i]->value, tokens[i]->type);
+        printf("Token %d: %s de type : %d\n", i, tokens[i]->value, tokens[i]->type);
         i++;
     }
     i = 0;
