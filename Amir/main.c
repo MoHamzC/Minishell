@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:52 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/12 06:12:21 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/12 07:17:53 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ int main()
 {
 
     extern char **environ;
-    char *line = "echo $HOME";
+    char *line = "echo $? $?$?$?$$$  $ $ $ $$HOME";
     t_token	**tokens;
     int		i;
     t_shell    shell;
-    
+
     shell.env = init_env(environ);
     tokens = take_ur_token_and_leave_me_alone(shell.env, line);
     printf("%s\n", line);
