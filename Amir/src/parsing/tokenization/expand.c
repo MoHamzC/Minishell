@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:54:26 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/12 04:53:04 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/12 06:10:44 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ char	*expand_variables(char *str, t_env *env)
 	char	*result;
 	char	*tmp;
 	int		i;
+	char	*expansion;
 
 	result = ft_strdup("");
 	i = 0;
@@ -65,7 +66,9 @@ char	*expand_variables(char *str, t_env *env)
 		{
 			i++;
 			tmp = result;
-			result = ft_strjoin(result, handle_dollar(str, &i, env));
+			expansion = handle_dollar(str, &i, env);
+			result = ft_strjoin(result, expansion);
+			free(expansion);
 			free(tmp);
 		}
 		else

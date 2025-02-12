@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:52 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/12 05:37:29 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/12 06:10:30 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ void	free_tokens(t_token **tokens)
 
 int main()
 {
+
     extern char **environ;
-    char *line = "\'$USER\'\"$USER\" $USER cat > file | grep \"hello world\" >> file << EOF < file";
+    char *line = "echo $HOME";
     t_token	**tokens;
     int		i;
     t_shell    shell;
-
+    
     shell.env = init_env(environ);
     tokens = take_ur_token_and_leave_me_alone(shell.env, line);
     printf("%s\n", line);
@@ -57,5 +58,7 @@ int main()
         printf("%s ", tokens[i]->value);
         i++;
     }
+    free_tokens(tokens);
+    free_env(shell.env);
     return (0);
 }
