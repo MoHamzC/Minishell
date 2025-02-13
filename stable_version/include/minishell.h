@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/13 17:48:24 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:06:05 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_command
 {
 	t_redir				**redir;
 	char				**args;
+	int 				argc;
 	int					builtin_value;
 	struct s_command	*next;
 }				t_command;
@@ -123,7 +124,14 @@ t_token	**take_ur_token_and_leave_me_alone(t_env *env, char *line);
 
 //builtins
 
-void ft_env(t_env *envp);
+int ft_env(t_env *envp);
+int ft_cd(t_env *envp);
+int ft_echo(int argc, char **argv);
+int ft_exit(int argc, char **argv, t_shell *shell);
+int ft_pwd(t_env *envp);
+int ft_unset(t_env *env, char **argv);
+
+
 
 /* Execution prototypes */
 int         executor(t_shell *shell);

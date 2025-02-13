@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 08:46:07 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/12 09:19:33 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:15:39 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_env(t_env *envp)
-{
-	while(envp->next)
-	{
-		printf("%s\n", envp->value);
-		envp = envp->next;
-	}
-}
+// int ft_env(t_env *envp)
+// {
+// 	while(envp->next)
+// 	{
+// 		printf("%s\n", envp->value);
+// 		envp = envp->next;
+// 	}
+// 	return(0);
+// }

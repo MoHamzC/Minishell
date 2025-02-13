@@ -3,15 +3,31 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 04:37:42 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/12 05:57:37 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:14:56 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenize.h"
 #include "minishell.h"
+
+void	free_tokens(t_token **tokens)
+{
+	int	i;
+
+	if (!tokens)
+		return;
+	i = 0;
+	while (tokens[i] && tokens[i]->value) 
+    {
+        free(tokens[i]->value);
+        free(tokens[i]);
+        i++;
+    }
+	free(tokens);
+}
 
 int	ft_isspace(char c)
 {
