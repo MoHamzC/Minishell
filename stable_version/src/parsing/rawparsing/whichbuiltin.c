@@ -27,9 +27,3 @@ int ft_strlen_tab(char **tab)
 		i++; 
 	return(i); 
 }
-
-int	is_redir_token(t_cmd_type type)
-{
-	return (type == REDIRIN || type == REDIROUT
-		|| type == APPEND || type == HERE_DOC);
-}

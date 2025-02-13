@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/13 20:06:05 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:33:07 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef struct s_exec_data
 	int		pid;
 }               t_exec_data;
 
+//tokenize
 int		ft_isspace(char c);
 t_token	**tokenize(char *line);
 int		post_tokenize(t_token **tokens, t_env *env);
@@ -120,9 +121,22 @@ t_env	*init_env(char **envp);
 void	free_env(t_env *env);
 t_token	**pre_process_redirections(t_token **tokens);
 t_token	**take_ur_token_and_leave_me_alone(t_env *env, char *line);
+int is_redir_token(t_cmd_type type);
 
+// parsing
 
-//builtins
+//  create_command.c
+t_command *new_command(void);
+void add_argument(t_command *cmd, char *arg);
+void add_redirection(t_command *cmd, t_token *token);
+void init_parse(t_command **cmds, t_command **current);
+t_command *parse_tokens(t_token **tokens);
+t_token *create_token(char *value, t_cmd_type type, t_word_type quote);
+// wichbuiltin.c
+int ft_strlen_tab(char **tab);
+int whichbuiltin(char *s);
+
+// builtins
 
 int ft_env(t_env *envp);
 int ft_cd(t_env *envp);

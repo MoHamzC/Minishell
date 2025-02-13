@@ -31,7 +31,7 @@ include/libft/libft.a:
 
 clean:
 	@echo -e "$(RED)Cleaning up...$(NC)"
-	rm -f $(OBJ_DIR)
+	rm -rf $(OBJ_DIR)
 	make -C include/libft clean
 	@echo -e "$(GREEN)Clean complete!$(NC)"
 
