@@ -1,4 +1,4 @@
-#include "../../../include/minishell.h"
+#include "parsing.h"
 
 
 t_command	*new_command(void)
@@ -100,6 +100,11 @@ t_token *create_token(char *value, t_cmd_type type, t_word_type quote)
     if (!token)
         return (NULL);
     token->value = strdup(value);
+    if (!token->value)
+    {
+        free(token);
+        return (NULL);
+    }
     token->type = type;
     token->quote = quote;
     return (token);
@@ -113,7 +118,9 @@ t_token *create_token(char *value, t_cmd_type type, t_word_type quote)
 //     int i;
 //     int cmd_no;
 
-//     tokens = malloc(sizeof(t_token *) * 12);
+//     tokens = malloc(sizeof(t_token *) * 11);
+//     if (!tokens)
+//         return (1);
 	
 // 	// tokens[0] = create_token("echo", WORD, NO_QUOTE);
 // 	// tokens[1] = create_token("hello", WORD, NO_QUOTE);
@@ -121,8 +128,8 @@ t_token *create_token(char *value, t_cmd_type type, t_word_type quote)
 // 	// tokens[3] = create_token("|", PIPE, NO_QUOTE);
 // 	// tokens[4] = create_token("pwd", WORD, NO_QUOTE);
 // 	// tokens[5] = NULL; 
-
-// 	tokens[0] = create_token("echo", WORD, NO_QUOTE);
+// 	// tokens[6] = NULL;
+// 		tokens[0] = create_token("echo", WORD, NO_QUOTE);
 //     tokens[1] = create_token("hello", WORD, NO_QUOTE);
 //     tokens[2] = create_token("world", WORD, NO_QUOTE);
 //     tokens[3] = create_token("|", PIPE, NO_QUOTE);
@@ -132,9 +139,10 @@ t_token *create_token(char *value, t_cmd_type type, t_word_type quote)
 // 	tokens[7] = create_token("output.txt", APPEND, NO_QUOTE);
 // 	tokens[8] = create_token("output.txt", REDIRIN, NO_QUOTE);
 // 	tokens[9] = create_token("output.txt", REDIROUT, NO_QUOTE);
-//     tokens[10] = NULL;
-
-	
+// 	tokens[10] = NULL;
+// 	// printf("tokens[0] = %s\n", tokens[0]->value);
+// 	// printf("tokens[1] = %s\n", tokens[1]->value);
+// 	// printf("tokens[2] = %s\n", tokens[2]->value);
 //     // tokens[0] = create_token("echo", WORD, NO_QUOTE);
 //     // tokens[1] = create_token("hello", WORD, NO_QUOTE);
 //     // tokens[2] = create_token("world", WORD, NO_QUOTE);
@@ -147,6 +155,7 @@ t_token *create_token(char *value, t_cmd_type type, t_word_type quote)
 // 	// tokens[9] = create_token("output.txt", REDIROUT, NO_QUOTE);
 //     // tokens[10] = NULL;
 	
+// 	printf("tokens[0] = %s\n", tokens[0]->value);
 //     commands = parse_tokens(tokens);
 
 
@@ -181,14 +190,7 @@ t_token *create_token(char *value, t_cmd_type type, t_word_type quote)
 
 
 
-
-
-
-
-
-
-
-
+//gcc -I../../../include create_command.c whichbuiltin.c -lft -L../../../include/libft
 
 
 // gcc create_command.c whichbuiltin.c -L../../../include/libft -lft
