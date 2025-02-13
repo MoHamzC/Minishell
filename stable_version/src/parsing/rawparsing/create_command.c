@@ -1,7 +1,7 @@
 #include "../../../include/minishell.h"
 
 
-t_command *new_command(void)
+t_command	*new_command(void)
 {
 	t_command *cmd;
 
@@ -29,7 +29,6 @@ void	add_argument(t_command *cmd, char *arg)
 		return ;
 	ft_memcpy(new_args, cmd->args, size * sizeof(char *)); 
 	new_args[size] = ft_strdup(arg);
-
 	free(cmd->args); 
 	cmd->args = new_args;
 	cmd->argc = size + 1;
@@ -37,27 +36,24 @@ void	add_argument(t_command *cmd, char *arg)
 
 void	add_redirection(t_command *cmd, t_token *token)
 {
-	int		i;
 	t_redir	**new_redir;
-	t_redir	*redir;
+	int		size;
 
-	i = 0; 
-	redir = malloc(sizeof(t_redir));
-	redir->file = ft_strdup(token->value);
-	redir->type = token->type;
-	redir->append = (token->type == APPEND);
-	i = 0;
-	while (cmd->redir && cmd->redir[i])
-		i++;
-	new_redir = malloc(sizeof(t_redir *) * (i + 2));
-	i = 0;
-	while (cmd->redir && cmd->redir[i])
-	{
-		new_redir[i] = cmd->redir[i];
-		i++;
-	}
-	new_redir[i] = redir;
-	new_redir[i + 1] = NULL;
+	size = 0;
+	if (!token)
+		return ;
+	while (cmd->redir && cmd->redir[size])
+		size++;
+	new_redir = ft_calloc(size + 2, sizeof(t_redir *));
+	if (cmd->redir)
+		ft_memcpy(new_redir, cmd->redir, size * sizeof(t_redir *));
+
+	new_redir[size] = malloc(sizeof(t_redir));
+	if (!new_redir[size])
+		return ;
+	new_redir[size]->file = ft_strdup(token->value);
+	new_redir[size]->type = token->type;
+	new_redir[size]->append = (token->type == APPEND);
 	free(cmd->redir);
 	cmd->redir = new_redir;
 }
@@ -97,38 +93,7 @@ t_command	*parse_tokens(t_token **tokens)
 		current->builtin_value = whichbuiltin(current->args[0]);
 	return (cmds);
 }
-// t_command	*parse_tokens(t_token **tokens)
-// {
-// 	t_command	*cmds;
-// 	t_command	*current;
-// 	int			i;
 
-
-// 	init_parse(&cmds, &current);
-// 	i = 0;
-// 	while (tokens[i])
-// 	{
-// 		if (tokens[i]->type == WORD)
-// 			add_argument(current, tokens[i]->value);
-// 		else if (is_redir_token(tokens[i]->type))
-// 			add_redirection(current, tokens[i]);
-// 		else if (tokens[i]->type == PIPE)
-// 		{
-// 			if (current->args && current->args[0])
-// 				current->builtin_value = whichbuiltin(current->args[0]);
-// 			current->next = new_command();
-// 			if (!current->next)
-// 				return (cmds);
-// 			current = current->next;
-// 		}
-// 		i++;
-// 	}
-// 	if (current->args && current->args[0])
-// 		current->builtin_value = whichbuiltin(current->args[0]);
-// 	return (cmds);
-// }
-
-//gptzone
 t_token *create_token(char *value, t_cmd_type type, t_word_type quote)
 {
     t_token *token = malloc(sizeof(t_token));
