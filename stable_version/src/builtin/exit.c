@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:12:54 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/12 20:55:41 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:09:13 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,31 +30,31 @@ bool ft_is_numeric(char *cmd)
 	return(true);
 }
 
-void ft_exit(int argc, char **argv, t_shell *shell)
+int ft_exit(int argc, char **argv, t_shell *shell)
 {
-    int exit_code;
+    int exit_status;
 
-	exit_code = 0;
+	exit_status = 0;
 	if (argc > 2)
 	{
 		ft_putstr_fd("too many arguments\n", 2);
-		shell->exit_code = 1;
-		return;
+		shell->exit_status = 1;
+		return(-1);
 	}
 	if (argc == 2)
 	{
 		if (!ft_is_numeric(argv[1]))
 		{
 			ft_putstr_fd("numeric argument required\n", 2);
-			exit_code = 2;
-			(free(shell), exit(exit_code));
+			exit_status = 2;
+			(free(shell), exit(exit_status));
 		}
-		exit_code = atoi(argv[1]);
+		exit_status = atoi(argv[1]);
 	}
-	if (exit_code < 0)
-		exit_code += 256;  // Ajuster pour être dans la plage 0-255
-	exit_code %= 256;  // Assurer que exit_code est dans la plage [0, 255]
+	if (exit_status < 0)
+		exit_status += 256;  // Ajuster pour être dans la plage 0-255
+	exit_status %= 256;  // Assurer que exit_status est dans la plage [0, 255]
 	free(shell);
 	printf("exit\n");
-	exit(exit_code);
+	return(exit_status);
 }

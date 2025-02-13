@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:42:02 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/12 10:59:46 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:05:51 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_pwd(t_env *envp)
+int ft_pwd(t_env *envp)
 {
 	char *s;
 
@@ -28,4 +28,5 @@ void ft_pwd(t_env *envp)
 	}
 	printf("%s\n", s);
 	free(s);
+	return(0);
 }

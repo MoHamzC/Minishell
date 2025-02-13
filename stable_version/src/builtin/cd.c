@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 16:56:26 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/13 18:19:13 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:09:01 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void ft_update_env(t_env *envp, const char *key, const char new_value)
 		envp = envp->next;
 	}
 }
-void ft_cd(t_env *envp)
+int ft_cd(t_env *envp)
 {
 	char *path;
 	char *cwd;
@@ -40,18 +40,19 @@ void ft_cd(t_env *envp)
 		if(home == NULL)
 		{
 			write(2, "HOME not set\n", 14);
-			return ;
+			return(-1) ;
 		}
 		path = home;
 	}
 	if(chdir(path) == -1)
 	{
 		perror("cd");
-		return;
+		return(-1);
 	}
 	printf("%s\n", path);
 	if (getcwd(cwd, sizeof(cwd)) != NULL)
 		ft_update_env(envp, "PWD", *cwd);
 	if (getenv("PWD"))
 		ft_update_env(envp, "OLDPWD", *getenv("PWD"));
+	return(0);
 }

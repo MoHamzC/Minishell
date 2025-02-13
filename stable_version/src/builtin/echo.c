@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:30:51 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/12 19:10:30 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/13 20:07:22 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void ft_print_arg(int argc, char **argv, int nl)
 		write(1, "\n", 1);
 }
 
-void ft_echo(int argc, char **argv)
+int ft_echo(int argc, char **argv)
 {
 	int nl;
 	int i;
@@ -41,4 +41,5 @@ void ft_echo(int argc, char **argv)
 		i++;
 	}
 	ft_print_arg(argc - i, &argv[i], nl);
+	return(0);
 }
