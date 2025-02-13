@@ -4,7 +4,7 @@ t_env *ft_envlst_new(char *key, char *value)
 {
     t_env *new;
 
-    new = malloc(sizeof(t_env));
+    new = malloc(sizeof(t_env)); 
     if (!new)
         return (NULL);
     new->key = strdup(key);
