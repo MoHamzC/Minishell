@@ -6,11 +6,11 @@
 /*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 22:06:32 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/11 18:34:59 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:45:30 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "minishell.h"
 
 char	*ft_strchr_gnl(const char *s, int c)
 {

@@ -21,15 +21,13 @@ int    exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 {
     char    *cmd_path;
     char    **path_dirs;
-	(void)shell; //utile que dans exec_builtin mais on l'a pas encore 
 
     if (!cmd->args || !cmd->args[0])
         return (0);
     if (handle_redirections(cmd) != 0)
         return (1);
-    if (is_builtin(cmd->args[0]) != NOT_BUILTIN)
-        //return (exec_builtin(shell, cmd));
-		return(1); // en attendant fonction exec_builtin
+    if (cmd->builtin_value != NOT_BUILTIN)
+        return (exec_builtin(cmd, shell->env, shell));
     path_dirs = get_path_dirs(exec->env_arr);
     cmd_path = find_command_path(cmd->args[0], path_dirs);
     if (!cmd_path)
