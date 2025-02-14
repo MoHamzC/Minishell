@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:30:51 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/13 20:07:22 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/14 02:06:44 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int ft_echo(int argc, char **argv)
 
 	i = 2;
 	nl = 1;
-	if(argc > 1 && strcmp(argv[i], "-n") == 0)
+	if(argc > 1 && ft_strncmp(argv[i], "-n", 2) == 0)
 	{
 		nl = 0;
 		i++;
