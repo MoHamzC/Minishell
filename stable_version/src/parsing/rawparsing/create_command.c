@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 20:58:17 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/14 01:54:39 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/14 02:18:49 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,17 @@
 //on ajoute une nouvlle commande on set tout a null
 t_command	*new_command(void)
 {
-	t_command *cmd;
+	t_command	*cmd;
 
 	cmd = malloc(sizeof(t_command));
-	if (!cmd)
-		return (NULL);
 	cmd->redir = NULL;
 	cmd->args = NULL;
-	cmd->argc = 0; 
+	cmd->argc = 0;
 	cmd->builtin_value = NOT_BUILTIN;
 	cmd->next = NULL;
 	return (cmd);
 }
+
 //on ajoute un argument a la fin du tableau des arguments
 void	add_argument(t_command *cmd, char *arg)
 {
@@ -36,14 +35,15 @@ void	add_argument(t_command *cmd, char *arg)
 	if (!arg)
 		return ;
 	size = ft_strlen_tab(cmd->args);
-	new_args = ft_calloc(size + 2, sizeof(char *)); 
-	ft_memcpy(new_args, cmd->args, size * sizeof(char *)); 
+	new_args = ft_calloc(size + 2, sizeof(char *));
+	ft_memcpy(new_args, cmd->args, size * sizeof(char *));
 	new_args[size] = ft_strdup(arg);
-	free(cmd->args); 
+	free(cmd->args);
 	cmd->args = new_args;
 	cmd->argc = size + 1;
 }
 //on ajoute redir fin tableau des redirs  et on precise le type 
+
 void	add_redirection(t_command *cmd, t_token *token)
 {
 	t_redir	**new_redir;
@@ -66,18 +66,14 @@ void	add_redirection(t_command *cmd, t_token *token)
 	free(cmd->redir);
 	cmd->redir = new_redir;
 }
+
 //on set init parse 
-void init_parse(t_command **cmds, t_command **current)
+void	init_parse(t_command **cmds, t_command **current)
 {
 	*cmds = new_command();
 	*current = *cmds;
 }
 
-int	is_rdir_tok(t_cmd_type type)
-{
-	return (type == REDIRIN || type == REDIROUT
-		|| type == APPEND || type == HERE_DOC);
-}
 // on cree une commande. on parcourt les token. si on rencontre 
 // token de type word on lajoute a **args, si redirection a **redir.
 // si on rencontre pipe on cree une nouvelle commande et on ajoute au 
@@ -90,7 +86,7 @@ t_command	*parse_tokens(t_token **tokens)
 	t_command	*current;
 	int			i;
 
-	init_parse(&cmds, &current); //cree premiere commande 
+	init_parse(&cmds, &current);
 	i = 0;
 	while (tokens[i])
 	{
@@ -111,12 +107,11 @@ t_command	*parse_tokens(t_token **tokens)
 		current->builtin_value = whichbuiltin(current->args[0]);
 	return (cmds);
 }
-
-t_token *create_token(char *value, t_cmd_type type, t_word_type quote)
+t_token	*create_token(char *value, t_cmd_type type, t_word_type quote)
 {
-    t_token *token = malloc(sizeof(t_token));
-    if (!token)
-        return (NULL);
+	t_token	*token; 
+	
+	token = malloc(sizeof(t_token));
     token->value = strdup(value);
     token->type = type;
     token->quote = quote;
@@ -212,10 +207,4 @@ t_token *create_token(char *value, t_cmd_type type, t_word_type quote)
 //     }
 //     return (0);
 // }
-
-
-
-//gcc -I../../../include create_command.c whichbuiltin.c -lft -L../../../include/libft
-
-
-// gcc create_command.c whichbuiltin.c -L../../../include/libft -lft
+//gcc -I../../../include create_command.c whichbuiltin.c libft.a
