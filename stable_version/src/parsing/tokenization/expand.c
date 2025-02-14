@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:54:26 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/14 06:27:26 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:16:58 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,18 @@ char	*handle_dollar(char *str, int *i, t_env *env)
 	j = *i;
 	while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
 		j++;
-	if (str[j] == '$')
-		j++;
-	if (j == *i)
+	if (j == *i && str[j] == '$')
+	{
+		*i = j + 1;
+		return (ft_strdup(" "));
+	}
+	if (j == *i && !str[*i])
 		return (ft_strdup("$"));
 	var = ft_substr(str, *i, j - *i);
+	printf("var = %s\n", var);
 	expansion = ft_strdup(get_envv(env, var));
-	free(var);
 	*i = j;
-	return (expansion);
+	return (free(var), expansion);
 }
 
 char	*expand_variables(char *str, t_env *env)
