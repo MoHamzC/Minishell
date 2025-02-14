@@ -6,7 +6,7 @@ MAKEFLAGS += -sj1
 
 # Compilateur et options de compilation
 CC      := cc
-CFLAGS  := -g3 -Wall -Wextra -Werror -Iinclude
+CFLAGS  := -g3 -Wall -Wextra -Werror -Iinclude -lreadline
 
 # Répertoires sources et objets
 SRC_DIRS := ./src include/gnl
