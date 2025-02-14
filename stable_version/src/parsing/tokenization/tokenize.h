@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 04:33:59 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/13 20:13:51 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/14 08:12:34 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,12 @@ int		check_redirection_errors(t_token **tokens);
 int		wich_type(char *token);
 char	*expand_variables(char *str, t_env *env);
 t_token	**pre_process_redirections(t_token **tokens);
+int		is_redir_char(char *c);
+int		three_redir(char *line);
+char	*add_spaces_around_specials(char *input);
+int		skip_quotes_syntax(const char *str);
+void 	skip_quotes(const char *str, char **res, size_t *i, size_t *j);
+void	show_tokens(t_token **tokens);
+int 	check_quotes(const char *str);
 
 #endif // TOKENIZE_H
