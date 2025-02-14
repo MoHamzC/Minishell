@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 05:23:32 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/12 05:47:45 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/14 08:21:02 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,11 @@ t_token	**pre_process_redirections(t_token **tokens)
 	new_tokens = malloc(sizeof(t_token *) * (new_count + 1));
 	while (tokens[i])
 	{
-		if (is_redir_token(tokens[i]->type) && is_redir_char(tokens[i]->value))
+		if (is_redir_token(tokens[i]->type) && is_redir_char(tokens[i]->value) && tokens[i]->quote == NO_QUOTE )
 		{
 			if (tokens[i + 1])
 				tokens[i + 1]->type = tokens[i]->type;
-			free(tokens[i]->value);
-			free(tokens[i]);
+			(free(tokens[i]->value),free(tokens[i]));
 			i++;
 		}
 		else

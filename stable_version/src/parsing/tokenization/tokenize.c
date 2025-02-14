@@ -6,13 +6,13 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:49 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/12 05:48:46 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/14 08:20:46 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "tokenize.h"
 
-static int	skip_token(char *line, int i)
+int	skip_token(char *line, int i)
 {
 	char	quote;
 
@@ -46,7 +46,7 @@ int	count_tokens(char *line)
 		if (line[i])
 		{
 			count++;
-			i = skip_token(line, i);
+			i = skip_token(line, i);					
 		}
 	}
 	return (count);
@@ -64,6 +64,8 @@ char	*extract_token(char **line)
 	while (str[start] && ft_isspace(str[start]))
 		start++;
 	end = skip_token(str, start);
+	if (end == -1)
+		return (NULL);
 	token = ft_substr(str, start, end - start);
 	if (!token)
 		return (NULL);
@@ -105,7 +107,7 @@ t_token	**tokenize(char *line)
 		{
 			tokens[j] = malloc(sizeof(t_token));
 			tokens[j]->value = extract_token(&current);
-			if (!tokens[j])
+			if (!tokens[j] || tokens[j]->value == NULL)
 				return (free_tokens(tokens), NULL);
 			j++;
 		}

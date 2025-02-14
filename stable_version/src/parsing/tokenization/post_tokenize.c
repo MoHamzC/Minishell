@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:44:53 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/12 05:45:58 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/14 07:08:40 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	finalize_tokens(t_token **tokens, t_env *env)
 	{
 		tmp = tokens[i]->value;
 		tokens[i]->value = process_complex_token(tmp, env);
+		if(ft_strcmp(tmp, tokens[i]->value) != 0)
+			tokens[i]->quote = SINGLE_QUOTE;
 		free(tmp);
 		i++;
 	}
@@ -98,14 +100,12 @@ int	check_redirection_errors(t_token **tokens)
 	i = 0;
 	while (tokens[i])
 	{
-		if (tokens[i]->type == REDIRIN || tokens[i]->type == REDIROUT
-			|| tokens[i]->type == APPEND || tokens[i]->type == HERE_DOC)
+		if (is_redir_token(tokens[i]->type) && three_redir(tokens[i]->value))
+			return (ft_putstr_fd("Syntax error: trop de redirections\n", 2), 0);
+		if (is_redir_token(tokens[i]->type))
 		{
 			if (!tokens[i + 1] || tokens[i + 1]->type != WORD)
-			{
-				ft_putstr_fd("Syntax error: redirection mal forme\n", 2);
-				return (0);
-			}
+				return (ft_putstr_fd("Syntax error: redirection mal forme\n", 2), 0);
 		}
 		i++;
 	}
