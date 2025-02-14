@@ -6,7 +6,7 @@
 /*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 20:58:17 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/14 23:03:33 by mtarento         ###   ########.fr       */
+/*   Updated: 2025/02/14 23:09:00 by mtarento         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,85 +119,85 @@ t_command	*parse_tokens(t_token **tokens)
 	return (cmds);
 }
 
-int main(void)
-{
-    t_token **tokens;
-    t_command *commands;
-    t_command *cmd;
-    int i;
-    int cmd_no;
+// int main(void)
+// {
+//     t_token **tokens;
+//     t_command *commands;
+//     t_command *cmd;
+//     int i;
+//     int cmd_no;
 
-    tokens = malloc(sizeof(t_token *) * 30);
-    if (!tokens)
-        return (1);
+//     tokens = malloc(sizeof(t_token *) * 30);
+//     if (!tokens)
+//         return (1);
 	
-	// tokens[0] = create_token("echo", WORD, NO_QUOTE);
-	// tokens[1] = create_token("hello", WORD, NO_QUOTE);
-	// tokens[2] = create_token("world", WORD, NO_QUOTE);
-	// tokens[3] = create_token("|", PIPE, NO_QUOTE);
-	// tokens[4] = create_token("pwd", WORD, NO_QUOTE);
-	// tokens[5] = NULL; 
-	// tokens[6] = NULL;
-		tokens[0] = create_token("echo", WORD, NO_QUOTE);
-    tokens[1] = create_token("hello", WORD, NO_QUOTE);
-    tokens[2] = create_token("world", WORD, NO_QUOTE);
-    tokens[3] = create_token("|", PIPE, NO_QUOTE);
-    tokens[4] = create_token("pwd", WORD, NO_QUOTE);
-    tokens[5] = create_token("hello", WORD, NO_QUOTE);
-    tokens[6] = create_token("output.txt", REDIROUT, NO_QUOTE);
-	tokens[7] = create_token("output.txt", APPEND, NO_QUOTE);
-	tokens[8] = create_token("output.txt", REDIRIN, NO_QUOTE);
-	tokens[9] = create_token("output.txt", REDIROUT, NO_QUOTE);
-	tokens[10] = create_token("output.txt", REDIROUT, NO_QUOTE);
-	tokens[11] = create_token("output.txt", REDIROUT, NO_QUOTE);
-	tokens[12] = create_token("hi", WORD, NO_QUOTE);
-	tokens[13] = create_token("hi", APPEND, NO_QUOTE);
-	tokens[14] = create_token("|", PIPE, NO_QUOTE);
-	tokens[15] = create_token("echo", WORD, NO_QUOTE);
-	tokens[16] = create_token("hello", WORD, NO_QUOTE);
-	// printf("tokens[0] = %s\n", tokens[0]->value);
-	// printf("tokens[1] = %s\n", tokens[1]->value);
-	// printf("tokens[2] = %s\n", tokens[2]->value);
-    // tokens[0] = create_token("echo", WORD, NO_QUOTE);
-    // tokens[1] = create_token("hello", WORD, NO_QUOTE);
-    // tokens[2] = create_token("world", WORD, NO_QUOTE);
-    // tokens[3] = create_token("|", PIPE, NO_QUOTE);
-    // tokens[4] = create_token("pwd", WORD, NO_QUOTE);
-    // tokens[5] = create_token("hello", WORD, NO_QUOTE);
-    // tokens[6] = create_token("output.txt", REDIROUT, NO_QUOTE);
-	// tokens[7] = create_token("output.txt", APPEND, NO_QUOTE);
-	// tokens[8] = create_token("output.txt", REDIRIN, NO_QUOTE);
-	// tokens[9] = create_token("output.txt", REDIROUT, NO_QUOTE);
-    tokens[17] = NULL;
-    commands = parse_tokens(tokens);
-    cmd = commands;
-    cmd_no = 1;
-    while (cmd != NULL)
-    {
-        printf("cmd %d:\n", cmd_no);
+// 	// tokens[0] = create_token("echo", WORD, NO_QUOTE);
+// 	// tokens[1] = create_token("hello", WORD, NO_QUOTE);
+// 	// tokens[2] = create_token("world", WORD, NO_QUOTE);
+// 	// tokens[3] = create_token("|", PIPE, NO_QUOTE);
+// 	// tokens[4] = create_token("pwd", WORD, NO_QUOTE);
+// 	// tokens[5] = NULL; 
+// 	// tokens[6] = NULL;
+// 		tokens[0] = create_token("echo", WORD, NO_QUOTE);
+//     tokens[1] = create_token("hello", WORD, NO_QUOTE);
+//     tokens[2] = create_token("world", WORD, NO_QUOTE);
+//     tokens[3] = create_token("|", PIPE, NO_QUOTE);
+//     tokens[4] = create_token("pwd", WORD, NO_QUOTE);
+//     tokens[5] = create_token("hello", WORD, NO_QUOTE);
+//     tokens[6] = create_token("output.txt", REDIROUT, NO_QUOTE);
+// 	tokens[7] = create_token("output.txt", APPEND, NO_QUOTE);
+// 	tokens[8] = create_token("output.txt", REDIRIN, NO_QUOTE);
+// 	tokens[9] = create_token("output.txt", REDIROUT, NO_QUOTE);
+// 	tokens[10] = create_token("output.txt", REDIROUT, NO_QUOTE);
+// 	tokens[11] = create_token("output.txt", REDIROUT, NO_QUOTE);
+// 	tokens[12] = create_token("hi", WORD, NO_QUOTE);
+// 	tokens[13] = create_token("hi", APPEND, NO_QUOTE);
+// 	tokens[14] = create_token("|", PIPE, NO_QUOTE);
+// 	tokens[15] = create_token("echo", WORD, NO_QUOTE);
+// 	tokens[16] = create_token("hello", WORD, NO_QUOTE);
+// 	// printf("tokens[0] = %s\n", tokens[0]->value);
+// 	// printf("tokens[1] = %s\n", tokens[1]->value);
+// 	// printf("tokens[2] = %s\n", tokens[2]->value);
+//     // tokens[0] = create_token("echo", WORD, NO_QUOTE);
+//     // tokens[1] = create_token("hello", WORD, NO_QUOTE);
+//     // tokens[2] = create_token("world", WORD, NO_QUOTE);
+//     // tokens[3] = create_token("|", PIPE, NO_QUOTE);
+//     // tokens[4] = create_token("pwd", WORD, NO_QUOTE);
+//     // tokens[5] = create_token("hello", WORD, NO_QUOTE);
+//     // tokens[6] = create_token("output.txt", REDIROUT, NO_QUOTE);
+// 	// tokens[7] = create_token("output.txt", APPEND, NO_QUOTE);
+// 	// tokens[8] = create_token("output.txt", REDIRIN, NO_QUOTE);
+// 	// tokens[9] = create_token("output.txt", REDIROUT, NO_QUOTE);
+//     tokens[17] = NULL;
+//     commands = parse_tokens(tokens);
+//     cmd = commands;
+//     cmd_no = 1;
+//     while (cmd != NULL)
+//     {
+//         printf("cmd %d:\n", cmd_no);
 
-        i = 0;
-        while (cmd->args && cmd->args[i])
-        {
-            printf("  Arg[%d] : %s\n", i, cmd->args[i]);
-            i++;
-        }
-        printf("  Builtin value : %d\n", cmd->builtin_value);
-        printf("  Argc          : %d\n", cmd->argc);
+//         i = 0;
+//         while (cmd->args && cmd->args[i])
+//         {
+//             printf("  Arg[%d] : %s\n", i, cmd->args[i]);
+//             i++;
+//         }
+//         printf("  Builtin value : %d\n", cmd->builtin_value);
+//         printf("  Argc          : %d\n", cmd->argc);
 
-        i = 0;
-       while (cmd->redir && cmd->redir[i])
-        {
-            printf("  Redirection[%d] : file = %s, type = %d, append = %d\n", 
-                   i, cmd->redir[i]->file, cmd->redir[i]->type, cmd->redir[i]->append);
-            i++;
-        }
-        printf("\n");
-        cmd = cmd->next;
-        cmd_no++;
-    }
-	ft_free_commands(commands);
-    ft_free_tokens(tokens);
-    return (0);
-}
+//         i = 0;
+//        while (cmd->redir && cmd->redir[i])
+//         {
+//             printf("  Redirection[%d] : file = %s, type = %d, append = %d\n", 
+//                    i, cmd->redir[i]->file, cmd->redir[i]->type, cmd->redir[i]->append);
+//             i++;
+//         }
+//         printf("\n");
+//         cmd = cmd->next;
+//         cmd_no++;
+//     }
+// 	ft_free_commands(commands);
+//     ft_free_tokens(tokens);
+//     return (0);
+// }
 //gcc -I../../../include create_command.c whichbuiltin.c libft.a
