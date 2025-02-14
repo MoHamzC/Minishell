@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 04:33:51 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/14 07:01:09 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:33:02 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ char	*extract_unquoted_segment(const char *token, int *i, t_env *env)
 	while (token[*i] && token[*i] != '\'' && token[*i] != '"')
 		(*i)++;
 	seg = ft_substr(token, start, *i - start);
+	printf("seg = %s\n", seg);
 	expanded = expand_variables(seg, env);
 	free(seg);
 	return (expanded);
