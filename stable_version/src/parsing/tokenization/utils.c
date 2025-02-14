@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 04:37:42 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/14 08:20:27 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/14 09:13:50 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ t_token	**take_ur_token_and_leave_me_alone(t_env *env, char *line)
 	char *new_line;
 	
 	if (check_quotes(line) == 0)
-		return (printf("error: quotes\n"), 0);
+		return (printf("error: quotes\n"), NULL);
 	new_line = add_spaces_around_specials(line);
 	new_tokens = tokenize(new_line);
 	free(new_line);
 	if (post_tokenize(new_tokens, env) == 0)
-		return (free_tokens(new_tokens), 0);
+		return (free_tokens(new_tokens), NULL);
 	new_tokens = pre_process_redirections(new_tokens);
 	return (new_tokens);
 }
