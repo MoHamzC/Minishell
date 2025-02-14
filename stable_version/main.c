@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:52 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/14 14:54:19 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/14 15:16:18 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int main()
 
     t_token	**tokens;
 
-    char *line = "ls -l | wc -l > out.txt";
+    char *line = "echo $ \"$HOME\"";
 
     shell.env = create_simple_env();
     tokens = take_ur_token_and_leave_me_alone(shell.env, line);
