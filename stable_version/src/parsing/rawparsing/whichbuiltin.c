@@ -1,5 +1,11 @@
 #include "parsing.h"
 
+int	is_rdir_tok(t_cmd_type type)
+{
+	return (type == REDIRIN || type == REDIROUT
+		|| type == APPEND || type == HERE_DOC);
+}
+
 int whichbuiltin(char *s)
 {
     if(ft_strcmp(s, "echo") == 0)
