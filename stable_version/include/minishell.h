@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/13 20:45:56 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/14 14:49:55 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,8 @@ int         executor(t_shell *shell);
 int         exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec);
 void        init_exec_data(t_exec_data *exec, t_shell *shell);
 void    	wait_all_children(t_shell *shell, t_exec_data *exec);
-int         is_builtin(char *cmd);
+int			exec_builtin(t_command *cmd, t_env *env, t_shell *shell);
+int    		is_builtin(char *cmd);
 
 /* Path handling */
 char        *find_command_path(char *cmd, char **env_paths);
