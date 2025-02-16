@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 04:36:19 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/14 08:21:37 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/16 16:46:55 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,20 @@ int	check_quotes(const char *str)
 	return (quote == 0);
 }
 
-int	post_tokenize(t_token **tokens, t_env *env)
+int	post_tokenize(t_token **tokens, t_env *env, t_shell *shell)
 {
 	assign_token_types(tokens);
 	assign_quote_type(tokens);
 	if (!check_pipe_errors(tokens))
+	{
+		shell->exit_status = 258;
 		return (0);
+	}
 	if (!check_redirection_errors(tokens))
+	{
+		shell->exit_status = 258;
 		return (0);
+	}
 	finalize_tokens(tokens, env);
 	return (1);
 }

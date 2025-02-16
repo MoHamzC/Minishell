@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/13 20:45:56 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/16 16:51:15 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct s_exec_data
 //tokenize
 int		ft_isspace(char c);
 t_token	**tokenize(char *line);
-int		post_tokenize(t_token **tokens, t_env *env);
+int		post_tokenize(t_token **tokens, t_env *env, t_shell *shell);
 void	free_tokens(t_token **tokens);
 
 t_env	*ft_envlst_new(char *key, char *value);
@@ -120,7 +120,7 @@ void	ft_envlst_add_back(t_env **lst, t_env *new);
 t_env	*init_env(char **envp);
 void	free_env(t_env *env);
 t_token	**pre_process_redirections(t_token **tokens);
-t_token	**take_ur_token_and_leave_me_alone(t_env *env, char *line);
+t_token	**take_ur_token_and_leave_me_alone(t_env *env, char *line, t_shell *sh);
 int is_redir_token(t_cmd_type type);
 
 // parsing
