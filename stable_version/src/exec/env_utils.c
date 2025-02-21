@@ -29,19 +29,19 @@ char    *create_env_string(char *key, char *value)
     return (result);
 }
 
-char    *get_env_value(t_env *env, char *key)
-{
-    t_env   *current;
+// char    *get_env_value(t_env *env, char *key)
+// {
+//     t_env   *current;
 
-    current = env;
-    while (current)
-    {
-        if (ft_strncmp(current->key, key, ft_strlen(current->key)) == 0)
-            return (current->value);
-        current = current->next;
-    }
-    return (NULL);
-}
+//     current = env;
+//     while (current)
+//     {
+//         if (ft_strncmp(current->key, key, ft_strlen(current->key)) == 0)
+//             return (current->value);
+//         current = current->next;
+//     }
+//     return (NULL);
+// }
 
 char    **env_list_to_array(t_env *env)
 {

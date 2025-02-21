@@ -13,20 +13,20 @@ char    *build_cmd_path(char *dir, char *cmd)
     return (result);
 }
 
-void    free_paths(char **paths)
-{
-    int    i;
+// void    free_paths(char **paths)
+// {
+//     int    i;
 
-    if (!paths)
-        return ;
-    i = 0;
-    while (paths[i])
-    {
-        free(paths[i]);
-        i++;
-    }
-    free(paths);
-}
+//     if (!paths)
+//         return ;
+//     i = 0;
+//     while (paths[i])
+//     {
+//         free(paths[i]);
+//         i++;
+//     }
+//     free(paths);
+// }
 
 char    *find_command_path(char *cmd, char **env_paths)
 {

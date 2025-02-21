@@ -1,80 +1,59 @@
 #include "minishell.h"
 
 
-void    reset_redirections(t_exec_data *exec)
+static t_redir *get_last_redir_of_type(t_redir **redirs, int type)
 {
-    if (exec->stdin_backup != -1)
+    int     i;
+    t_redir *last;
+
+    i = 0;
+    last = NULL;
+    while (redirs[i])
     {
-        dup2(exec->stdin_backup, STDIN_FILENO);
-        close(exec->stdin_backup);
-        exec->stdin_backup = -1;
+        if (redirs[i]->type == type || 
+            (type == REDIROUT && redirs[i]->type == APPEND))
+            last = redirs[i];
+        i++;
     }
-    if (exec->stdout_backup != -1)
-    {
-        dup2(exec->stdout_backup, STDOUT_FILENO);
-        close(exec->stdout_backup);
-        exec->stdout_backup = -1;
-    }
+    return (last);
 }
 
-static char *get_heredoc_filename(void)
-{
-    static int  count = 0;
-    char        *num;
-    char        *filename;
 
-    num = ft_itoa(count++);
-    filename = ft_strjoin("/tmp/.heredoc_", num);
-    free(num);
-    return (filename);
-}
-
-int    handle_heredoc(char *delimiter)
+static int create_output_files(t_redir **redirs)
 {
-    char    *filename;
-    char    *line;
+    int     i;
     int     fd;
 
-    filename = get_heredoc_filename();
-    fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if (fd < 0)
+    i = 0;
+    while (redirs[i])
     {
-        free(filename);
-        return (print_file_error("heredoc", strerror(errno)));
-    }
-    while (1)
-    {
-        ft_putstr_fd("> ", 1);
-        line = get_next_line(STDIN_FILENO);
-        if (!line)
-            break;
-        if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0 &&
-            line[ft_strlen(delimiter)] == '\n')
+        if (redirs[i]->type == REDIROUT || redirs[i]->type == APPEND)
         {
-            free(line);
-            break;
+            fd = open(redirs[i]->file, O_WRONLY | O_CREAT, 0644);
+            if (fd < 0)
+                return (print_file_error(redirs[i]->file, strerror(errno)));
+            close(fd);
         }
-        ft_putstr_fd(line, fd);
-        free(line);
+        if (redirs[i]->type == REDIRIN)
+        {
+            fd = open(redirs[i]->file, O_RDONLY);
+            if (fd<0)
+                return (print_file_error(redirs[i]->file, strerror(errno)));
+            close(fd);
+        }
+        i++;
     }
-    close(fd);
-    fd = open(filename, O_RDONLY);
-    unlink(filename);
-    free(filename);
-    if (fd < 0)
-        return (print_file_error("heredoc", strerror(errno)));
-    dup2(fd, STDIN_FILENO);
-    close(fd);
     return (0);
 }
 
-int    handle_input_redir(char *file)
+int    handle_input_redir(char *file, t_exec_data *exec)
 {
     int    fd;
 
     fd = open(file, O_RDONLY);
     if (fd < 0)
         return (print_file_error(file, strerror(errno)));
+    exec->stdin_backup = fd;
     if (dup2(fd, STDIN_FILENO) < 0)
     {
         close(fd);
@@ -84,7 +63,7 @@ int    handle_input_redir(char *file)
     return (0);
 }
 
-int    handle_output_redir(char *file, int append)
+int    handle_output_redir(char *file, int append, t_exec_data *exec)
 {
     int    fd;
     int    flags;
@@ -94,6 +73,7 @@ int    handle_output_redir(char *file, int append)
     fd = open(file, flags, 0644);
     if (fd < 0)
         return (print_file_error(file, strerror(errno)));
+    exec->stdout_backup = fd;
     if (dup2(fd, STDOUT_FILENO) < 0)
     {
         close(fd);
@@ -102,35 +82,47 @@ int    handle_output_redir(char *file, int append)
     close(fd);
     return (0);
 }
-int    handle_redirections(t_command *cmd)
+
+int handle_redirections(t_command *cmd, t_exec_data *exec)
 {
-    int     i;
-    t_redir **redirs;
+    t_redir *last_in;
+    t_redir *last_out;
+    int i;
 
     if (!cmd->redir)
         return (0);
-    redirs = cmd->redir;
+
+    if (create_output_files(cmd->redir) != 0)
+        return (1);
+
+    // Trouve la dernière redirection d'entrée (REDIRIN ou HERE_DOC)
+    last_in = NULL;
     i = 0;
-    while (redirs[i])
+    while (cmd->redir[i])
     {
-        if (redirs[i]->type == REDIRIN)
-        {
-            if (handle_input_redir(redirs[i]->file) != 0)
-                return (1);
-        }
-        else if (redirs[i]->type == REDIROUT || redirs[i]->type == APPEND)
-        {
-            if (handle_output_redir(redirs[i]->file, 
-                redirs[i]->type == APPEND) != 0)
-                return (1);
-        }
-        else if (redirs[i]->type == HERE_DOC)
-        {
-            if (handle_heredoc(redirs[i]->file) != 0)
-                return (1);
-        }
+        if (cmd->redir[i]->type == REDIRIN || cmd->redir[i]->type == HERE_DOC)
+            last_in = cmd->redir[i];
         i++;
     }
+
+    // Trouve la dernière redirection de sortie
+    last_out = get_last_redir_of_type(cmd->redir, REDIROUT);
+
+    // Gérer l'entrée
+    if (last_in)
+    {
+        if (handle_input_redir(last_in->file, exec) != 0)
+            return (1);
+    }
+
+    // Gérer la sortie
+    if (last_out)
+    {
+        if (handle_output_redir(last_out->file, last_out->type == APPEND, exec) != 0)
+            return (1);
+    }
+
     return (0);
 }
+
 

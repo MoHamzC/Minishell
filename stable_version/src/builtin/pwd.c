@@ -6,27 +6,26 @@
 /*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:42:02 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/13 20:05:51 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/18 19:22:49 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int ft_pwd(t_env *envp)
+int	ft_pwd()
 {
 	char *s;
 
 	s = NULL;
-	while(envp->next)
+	s = getcwd(s, 0);
+	if(!s)
 	{
-		if(ft_strncmp(envp->key, "PWD", 3) == 0)
-		{
-			s = ft_strdup(envp->value);
-			break;
-		}
-		envp = envp->next;
+		perror("pwd");
 	}
-	printf("%s\n", s);
-	free(s);
+	if(s)
+	{
+		printf("%s\n", s);
+		free(s);
+	}
 	return(0);
 }

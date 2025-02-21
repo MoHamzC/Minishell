@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 08:46:07 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/13 20:07:10 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/21 17:28:24 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,13 @@
 
 int ft_env(t_env *envp)
 {
-	while(envp->next)
+	t_env *env = envp;
+	while(env)
 	{
-		printf("%s\n", envp->value);
-		envp = envp->next;
+		printf("%s=%s\n", env->key,env->value);
+		env = env->next;
 	}
 	return(0);
 }
+
+//marche pas
