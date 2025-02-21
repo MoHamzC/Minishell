@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+volatile sig_atomic_t	sig_received = 0;
+
 int    exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 {
     char    *cmd_path;

@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 03:51:25 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/16 16:41:09 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/21 20:11:34 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*add_spaces_around_specials(char *input)
 	while (input[i])
 	{
         skip_quotes(input,&res, &i, &j);
-		if ((input[i] == '<' || input[i] == '>') &&
+		if (input[i] && (input[i] == '<' || input[i] == '>') &&
 				input[i + 1] == input[i])
 		{
 			j = process_double_token(input, i, res, j);
@@ -71,7 +71,7 @@ char	*add_spaces_around_specials(char *input)
 			j = process_single_token(input, i, res, j);
 			i++;
 		}
-		else
+		else if (input[i])
 			res[j++] = input[i++];
 	}
 	res[j] = '\0';

@@ -1,11 +1,4 @@
 #include "minishell.h"
-#include <readline/readline.h>
-#include <readline/history.h>
-
-
-//SIGNAUX
-
-volatile sig_atomic_t	sig_received = 0;
 
 void handle_sigint(int sig)
 {
@@ -53,6 +46,8 @@ int	main(int argc, char **argv, char **envp)
 		tokens = take_ur_token_and_leave_me_alone(line, &shell);
 		if (!tokens || !tokens[0])
 		{
+			if (tokens)
+				free(tokens);
 			free(line);
 			continue ;
 		}

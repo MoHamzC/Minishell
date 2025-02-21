@@ -13,6 +13,11 @@ SRC_DIRS := ./src include/gnl
 OBJ_DIR  := obj
 
 # Fichiers sources et objets
+SRC_WITHOUT_MAIN := $(shell find $(SRC_DIRS) -iname "*.c")
+
+FUZZER_SRC := $(SRC_WITHOUT_MAIN) src/fuzzer.o
+FUZZER_OBJS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(FUZZER_SRC))
+
 SRCS := main.c $(shell find $(SRC_DIRS) -iname "*.c")
 OBJS := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS))
 
@@ -105,6 +110,10 @@ fclean: clean
 	@$(RM) $(TARGET)
 	@$(MAKE) -C include/libft fclean
 	@echo - "$(GREEN)[FCLEAN]$(NC) Nettoyage complet terminé !"
+
+fuzzer: CFLAGS += -fsanitize=fuzzer,address
+fuzzer: $(FUZZER_OBJS) $(LIBFT)
+	clang -o $@ $(FUZZER_OBJS) $(LIBS) $(CFLAGS)
 
 # Rebuild complet
 re: fclean all

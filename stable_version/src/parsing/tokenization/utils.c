@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 04:37:42 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/21 18:11:44 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/21 21:20:04 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,10 @@ void	free_tokens(t_token **tokens)
 	if (!tokens)
 		return;
 	i = 0;
-	while (tokens[i] && tokens[i]->value) 
+	while (tokens[i]) 
     {
-        free(tokens[i]->value);
+		if (tokens[i]->value)
+        	free(tokens[i]->value);
         free(tokens[i]);
         i++;
     }
