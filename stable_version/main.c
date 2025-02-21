@@ -31,7 +31,7 @@ int	main(void)
 	t_token	**tokens;
 	char	*line;
 
-	shell.exit_status = 9;
+	shell.exit_status = 0;
 	shell.env = create_simple_env();
 	while (1)
 	{
