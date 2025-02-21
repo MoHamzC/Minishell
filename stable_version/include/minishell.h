@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/21 18:09:12 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/21 18:16:13 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # include <sys/wait.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
+
+extern volatile sig_atomic_t sig_received;
 
 typedef enum e_builtin
 {
@@ -84,6 +87,7 @@ typedef struct s_command
 	char				**args;
 	int 				argc;
 	int					builtin_value;
+	int					pid;
 	struct s_command	*next;
 }				t_command;
 
@@ -106,7 +110,6 @@ typedef struct s_exec_data
     int     last_status;
     int     stdin_backup;
     int     stdout_backup;
-	int		pid;
 }               t_exec_data;
 
 //tokenize
@@ -138,12 +141,14 @@ int whichbuiltin(char *s);
 
 // builtins
 
-int ft_env(t_env *envp);
-int ft_cd(t_env *envp);
-int ft_echo(int argc, char **argv);
-int ft_exit(int argc, char **argv, t_shell *shell);
-int ft_pwd(t_env *envp);
-int ft_unset(t_env *env, char **argv);
+int 	ft_env(t_env *envp);
+int 	ft_cd(t_shell *shell);
+int 	ft_echo(int argc, char **argv);
+int 	ft_exit(int argc, char **argv, t_shell *shell);
+int 	ft_pwd(t_env *envp);
+int 	ft_export(char **args, t_shell *shell);
+int 	ft_unset(t_env *env, char **args);
+char	*builtin_get_envv(t_env *env, char *key);
 
 
 
@@ -151,9 +156,11 @@ int ft_unset(t_env *env, char **argv);
 int         executor(t_shell *shell);
 int         exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec);
 void        init_exec_data(t_exec_data *exec, t_shell *shell);
-void    	wait_all_children(t_shell *shell, t_exec_data *exec);
+void    	wait_all_children(t_shell *shell);
 int			exec_builtin(t_command *cmd, t_env *env, t_shell *shell);
 int    		is_builtin(char *cmd);
+char 		**process_heredocs(t_command *cmds);
+void 		cleanup_heredoc_files(char **heredoc_files);
 
 /* Path handling */
 char        *find_command_path(char *cmd, char **env_paths);
@@ -161,7 +168,7 @@ char        **get_path_dirs(char **env);
 int         check_command_access(char *cmd_path);
 
 /* Redirections */
-int         handle_redirections(t_command *cmd);
+int   		 handle_redirections(t_command *cmd, t_exec_data *exec);
 void        reset_redirections(t_exec_data *exec);
 void        backup_std_fds(t_exec_data *exec);
 void        restore_std_fds(t_exec_data *exec);
