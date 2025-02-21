@@ -50,12 +50,12 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		if (*line)
 			add_history(line);
-		tokens = take_ur_token_and_leave_me_alone(shell.env, line);
-		if (!tokens)
+		tokens = take_ur_token_and_leave_me_alone(line, &shell);
+		if (!tokens || !tokens[0])
 		{
 			free(line);
 			continue ;
-		}		
+		}
 		shell.cmds = parse_tokens(tokens);
 		executor(&shell);
 		free_tokens(tokens);
