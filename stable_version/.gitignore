@@ -3,3 +3,5 @@ obj/
 minishell
 .vscode/
 .tests/
+*.a
+.progress_counter
