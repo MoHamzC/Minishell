@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 04:33:51 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/16 16:40:35 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:10:26 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*extract_single_quote_segment(const char *token, int *i)
 	return (ft_substr(token, start, *i - start));
 }
 
-char	*extract_double_quote_segment(const char *token, int *i, t_env *env)
+char	*extract_double_quote_segment(const char *token, int *i, t_shell *sh)
 {
 	int		start;
 	char	*seg;
@@ -33,12 +33,12 @@ char	*extract_double_quote_segment(const char *token, int *i, t_env *env)
 	while (token[*i] && token[*i] != '"')
 		(*i)++;
 	seg = ft_substr(token, start, *i - start);
-	expanded = expand_variables(seg, env);
+	expanded = expand_variables(seg, sh);
 	free(seg);
 	return (expanded);
 }
 
-char	*extract_unquoted_segment(const char *token, int *i, t_env *env)
+char	*extract_unquoted_segment(const char *token, int *i, t_shell *sh)
 {
 	int		start;
 	char	*seg;
@@ -48,12 +48,12 @@ char	*extract_unquoted_segment(const char *token, int *i, t_env *env)
 	while (token[*i] && token[*i] != '\'' && token[*i] != '"')
 		(*i)++;
 	seg = ft_substr(token, start, *i - start);
-	expanded = expand_variables(seg, env);
+	expanded = expand_variables(seg, sh);
 	free(seg);
 	return (expanded);
 }
 
-char	*get_next_segment(char *token, int *i, t_env *env)
+char	*get_next_segment(char *token, int *i, t_shell *sh)
 {
 	char	*segment;
 
@@ -68,16 +68,16 @@ char	*get_next_segment(char *token, int *i, t_env *env)
 	else if (token[*i] == '"')
 	{
 		(*i)++;
-		segment = extract_double_quote_segment(token, i, env);
+		segment = extract_double_quote_segment(token, i, sh);
 		if (token[*i] == '"')
 			(*i)++;
 		return (segment);
 	}
 	else
-		return (extract_unquoted_segment(token, i, env));
+		return (extract_unquoted_segment(token, i, sh));
 }
 
-char	*process_complex_token(char *token, t_env *env)
+char	*process_complex_token(char *token, t_shell *sh)
 {
 	char	*result;
 	char	*part;
@@ -88,7 +88,7 @@ char	*process_complex_token(char *token, t_env *env)
 	i = 0;
 	while (token[i])
 	{
-		part = get_next_segment(token, &i, env);
+		part = get_next_segment(token, &i, sh);
 		tmp = result;
 		result = ft_strjoin(result, part);
 		free(tmp);

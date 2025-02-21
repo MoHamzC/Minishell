@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:44:53 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/16 16:40:42 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:11:13 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	assign_quote_type(t_token **tokens)
 	}
 }
 
-int	finalize_tokens(t_token **tokens, t_env *env)
+int	finalize_tokens(t_token **tokens, t_shell *sh)
 {
 	char	*tmp;
 	int		i;
@@ -59,7 +59,7 @@ int	finalize_tokens(t_token **tokens, t_env *env)
 	while (tokens[i])
 	{
 		tmp = tokens[i]->value;
-		tokens[i]->value = process_complex_token(tmp, env);
+		tokens[i]->value = process_complex_token(tmp, sh);
 		if(ft_strcmp(tmp, tokens[i]->value) != 0)
 			tokens[i]->quote = SINGLE_QUOTE;
 		free(tmp);

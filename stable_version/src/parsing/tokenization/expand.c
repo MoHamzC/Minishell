@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:54:26 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/16 16:40:38 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:24:29 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,18 @@ char	*append_char(char *s, char c)
 	return (res);
 }
 
-char	*handle_dollar(char *str, int *i, t_env *env)
+char	*handle_dollar(char *str, int *i, t_shell *sh)
 {
 	int		j;
 	char	*var;
 	char	*expansion;
 
 	j = *i;
+	if (str[j] == '?')
+	{
+		*i = j + 1;
+		return (ft_itoa(sh->exit_status));
+	}
 	while (str[j] && (ft_isalnum(str[j]) || str[j] == '_'))
 		j++;
 	if (j == *i && str[j] == '$')
@@ -52,12 +57,12 @@ char	*handle_dollar(char *str, int *i, t_env *env)
 	if ((j == *i && !str[*i]) || (str[j] == '$' && str[j + 1] == '\'' && str[j + 1] == '"'))
 		return (ft_strdup(""));
 	var = ft_substr(str, *i, j - *i);
-	expansion = ft_strdup(get_envv(env, var));
+	expansion = ft_strdup(get_envv(sh->env, var));
 	*i = j;
 	return (free(var), expansion);
 }
 
-char	*expand_variables(char *str, t_env *env)
+char	*expand_variables(char *str, t_shell *sh)
 {
 	char	*result;
 	char	*tmp;
@@ -72,7 +77,7 @@ char	*expand_variables(char *str, t_env *env)
 		{
 			i++;
 			tmp = result;
-			expansion = handle_dollar(str, &i, env);
+			expansion = handle_dollar(str, &i, sh);
 			result = ft_strjoin(result, expansion);
 			free(expansion);
 			free(tmp);

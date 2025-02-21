@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 04:33:59 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/16 16:41:16 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:11:31 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,15 @@
 # define TOKENIZE_H
 # include "minishell.h"
 
-char	*process_complex_token(char *token, t_env *env);
+char	*process_complex_token(char *token, t_shell *sh);
 char	*expand_variables_quote(char *str, t_env *env, int quote_type);
 void	assign_token_types(t_token **tokens);
 void	assign_quote_type(t_token **tokens);
-int		finalize_tokens(t_token **tokens, t_env *env);
+int		finalize_tokens(t_token **tokens, t_shell *sh);
 int		check_pipe_errors(t_token **tokens);
 int		check_redirection_errors(t_token **tokens);
 int		wich_type(char *token);
-char	*expand_variables(char *str, t_env *env);
+char	*expand_variables(char *str, t_shell *sh);
 t_token	**pre_process_redirections(t_token **tokens);
 int		is_redir_char(char *c);
 int		three_redir(char *line);

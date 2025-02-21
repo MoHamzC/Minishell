@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 04:37:42 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/16 16:51:03 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/21 16:13:05 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	skip_quotes_syntax(const char *str)
 	return (i);
 }
 
-t_token	**take_ur_token_and_leave_me_alone(t_env *env, char *line, t_shell *sh)
+t_token	**take_ur_token_and_leave_me_alone(char *line, t_shell *sh)
 {
 	t_token	**new_tokens;
 	char *new_line;
@@ -81,7 +81,7 @@ t_token	**take_ur_token_and_leave_me_alone(t_env *env, char *line, t_shell *sh)
 	new_line = add_spaces_around_specials(line);
 	new_tokens = tokenize(new_line);
 	free(new_line);
-	if (post_tokenize(new_tokens, env, sh) == 0)
+	if (post_tokenize(new_tokens, sh) == 0)
 		return (free_tokens(new_tokens), NULL);
 	new_tokens = pre_process_redirections(new_tokens);
 	return (new_tokens);

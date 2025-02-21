@@ -31,6 +31,7 @@ int	main(void)
 	t_token	**tokens;
 	char	*line;
 
+	shell.exit_status = 9;
 	shell.env = create_simple_env();
 	while (1)
 	{
@@ -40,7 +41,7 @@ int	main(void)
 		if (*line)
 			add_history(line);
 		/* Tokenisation et traitement */
-		tokens = take_ur_token_and_leave_me_alone(shell.env, line);
+		tokens = take_ur_token_and_leave_me_alone(line, &shell);
 		if (!tokens)
 		{
 			free(line);

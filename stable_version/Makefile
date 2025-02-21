@@ -6,7 +6,7 @@ MAKEFLAGS += -sj1
 
 # Compilateur et options de compilation
 CC      := cc
-CFLAGS  := -g3 -Wall -Wextra -Werror -Iinclude -lreadline
+CFLAGS  := -g3 -Wall -Wextra -Werror -Iinclude 
 
 # Répertoires sources et objets
 SRC_DIRS := ./src include/gnl
@@ -82,7 +82,7 @@ $(OBJ_DIR)/%.o: %.c
 # Edition des liens et création de l'exécutable
 $(TARGET): $(OBJS) $(LIBFT)
 	@echo - "\n$(YELLOW)[LINKING]$(NC) Création de $(TARGET)..."
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(TARGET)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(TARGET) -lreadline
 	@echo - "$(GREEN)[SUCCESS]$(NC) Exécutable $(TARGET) généré !"
 	$(MAKE) banner
 
