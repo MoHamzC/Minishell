@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 00:22:59 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/12 00:24:55 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/21 18:30:41 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,14 @@ void	free_env(t_env *env)
 		free(tmp->value);
 		free(tmp);
 	}
+}
+char	*builtin_get_envv(t_env *env, char *key)
+{
+	while (env)
+	{
+		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0)
+			return (env->value);
+		env = env->next;
+	}
+	return (NULL);
 }
