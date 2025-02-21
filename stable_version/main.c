@@ -35,7 +35,7 @@ int	main(void)
 	shell.env = create_simple_env();
 	while (1)
 	{
-		line = readline("minishell$ ");
+		line = readline("2MAC-Shell$ ");
 		if (!line)
 			break ;
 		if (*line)
@@ -43,7 +43,7 @@ int	main(void)
 		/* Tokenisation et traitement */
 		tokens = take_ur_token_and_leave_me_alone(line, &shell);
 		if (!tokens)
-		{
+		{ 
 			free(line);
 			continue ;
 		}
