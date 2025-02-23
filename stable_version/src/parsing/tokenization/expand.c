@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 23:54:26 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/21 18:12:13 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/23 17:38:16 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ char	*handle_dollar(char *str, int *i, t_shell *sh)
 		*i = j + 1;
 		return (ft_strdup(" "));
 	}
-	if ((j == *i && !str[*i]) || (str[j] == '$' && str[j + 1] == '\'' && str[j + 1] == '"'))
+	if ((j == *i && !str[*i]) || (str[j] == '$'
+			&& str[j + 1] == '\'' && str[j + 1] == '"'))
 		return (ft_strdup(""));
 	var = ft_substr(str, *i, j - *i);
 	expansion = ft_strdup(get_envv(sh->env, var));
