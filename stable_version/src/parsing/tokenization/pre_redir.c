@@ -6,11 +6,12 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 05:23:32 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/23 17:34:08 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/23 18:17:13 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "tokenize.h"
 
 int	is_redir_token(t_cmd_type type)
 {
@@ -66,7 +67,7 @@ t_token	**pre_process_redirections(t_token **tokens)
 	j = 0;
 	new_count = count_tokens_total(tokens) - count_redir_tokens(tokens);
 	new_tokens = malloc(sizeof(t_token *) * (new_count + 1));
-	while (i < new_count)
+	while (j < new_count)
 	{
 		if (is_redir_token(tokens[i]->type) && is_redir_char(tokens[i]->value)
 			&& tokens[i]->quote == NO_QUOTE)
