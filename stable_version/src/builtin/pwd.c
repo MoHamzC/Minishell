@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:42:02 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/18 19:22:49 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/23 14:19:03 by axburin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,16 @@
 
 int	ft_pwd()
 {
-	char *s;
+	char	*s;
 
 	s = NULL;
 	s = getcwd(s, 0);
-	if(!s)
-	{
+	if (!s)
 		perror("pwd");
-	}
-	if(s)
+	if (s)
 	{
 		printf("%s\n", s);
 		free(s);
 	}
-	return(0);
+	return (0);
 }

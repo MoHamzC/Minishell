@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/23 14:31:10 by axburin-          #+#    #+#             */
+/*   Updated: 2025/02/23 17:48:10 by axburin-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-void handle_sigint(int sig)
+void	handle_sigint(int sig)
 {
 	(void)sig;
-	if(sig_received == 1)
+	if (sig_received == 1)
 	{
 		write(STDOUT_FILENO, "\n", 1);
 		sig_received = 0;
@@ -19,13 +31,13 @@ void handle_sigint(int sig)
 
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
-	t_shell	shell;
-	t_token	**tokens;
-	char	*line;
+	t_shell				shell;
+	// t_token				**tokens;
+	// char				*line;
 	struct sigaction	sa;
 
+	(void)argc;
+	(void)argv;
 	signal(SIGINT, handle_sigint);
 	rl_outstream = stderr;
 	sa.sa_handler = handle_sigint;
@@ -33,32 +45,7 @@ int	main(int argc, char **argv, char **envp)
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
-
 	shell.env = init_env(envp);
-	while (1)
-	{
-		
-		line = readline("2MAC-Shell$ ");
-		if (!line)
-			break ;
-		if (*line)
-			add_history(line);
-		tokens = take_ur_token_and_leave_me_alone(line, &shell);
-		if (!tokens || !tokens[0])
-		{
-			if (tokens)
-				free(tokens);
-			free(line);
-			continue ;
-		}
-		shell.cmds = parse_tokens(tokens);
-		executor(&shell);
-		free_tokens(tokens);
-		free(line);
-	}
-	free(line);
-	rl_clear_history();
-	free_env(shell.env);
+	ft_loop(&shell);
 	return (0);
 }
-

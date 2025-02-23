@@ -3,43 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:12:54 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/20 17:49:36 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/23 13:56:17 by axburin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool ft_is_numeric(char *cmd)
+bool	ft_is_numeric(char *cmd)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if(cmd[i] == '-' || cmd[i] == '+')
+	if (cmd[i] == '-' || cmd[i] == '+')
+		i++;
+	while (cmd[i])
 	{
+		if (!ft_isdigit(cmd[i]))
+			return (false);
 		i++;
 	}
-	while(cmd[i])
-	{
-		if(!ft_isdigit(cmd[i]))
-			return(false);
-		i++;
-	}
-	return(true);
+	return (true);
 }
 
-int ft_exit(int argc, char **argv, t_shell *shell)
+int	ft_exit(int argc, char **argv, t_shell *shell)
 {
-    int exit_status;
+	int	exit_status;
 
 	exit_status = 0;
 	if (argc > 2)
 	{
 		ft_putstr_fd("too many arguments\n", 2);
 		shell->exit_status = 1;
-		return(-1);
+		return (-1);
 	}
 	if (argc == 2)
 	{
@@ -52,10 +50,8 @@ int ft_exit(int argc, char **argv, t_shell *shell)
 		exit_status = atoi(argv[1]);
 	}
 	if (exit_status < 0)
-		exit_status += 256;  // Ajuster pour être dans la plage 0-255
-	exit_status %= 256;  // Assurer que exit_status est dans la plage [0, 255]
+		exit_status += 256;
+	exit_status %= 256;
 	printf("exit\n");
 	exit(exit_status);
 }
-
-

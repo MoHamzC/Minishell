@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/21 19:40:42 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/23 17:41:09 by axburin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,8 @@ int whichbuiltin(char *s);
 
 int 	ft_env(t_env *envp);
 int 	ft_cd(t_shell *shell);
+int		change_directory(t_shell *shell, char *path);
+int		change_to_home(t_shell *shell);
 int 	ft_echo(int argc, char **argv);
 int 	ft_exit(int argc, char **argv, t_shell *shell);
 int 	ft_pwd(t_env *envp);
@@ -150,7 +152,7 @@ int 	ft_export(char **args, t_shell *shell);
 int 	ft_unset(t_env *env, char **args);
 char	*builtin_get_envv(t_env *env, char *key);
 
-
+void	ft_loop(t_shell *shell);
 
 /* Execution prototypes */
 int         executor(t_shell *shell);

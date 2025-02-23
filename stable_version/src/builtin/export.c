@@ -3,79 +3,79 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 20:45:23 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/21 17:26:47 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/23 13:52:04 by axburin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-bool ift_is_valid_env_var(char *key)
+bool	ift_is_valid_env_var(char *key)
 {
-	int i;
+	int	i;
+
 	if ((!key || !ft_isalpha(key[0])) && (key[0] != '_'))
-		return false;
+		return (false);
 	i = 1;
-	while(key[i] != '\0') 
+	while (key[i] != '\0')
 	{
 		if (!ft_isalnum(key[i]) && key[i] != '_')
-			return false;
+			return (false);
 		i++;
 	}
-	return true;
+	return (true);
 }
-void push_env_var(t_shell *shell, char *key, char *value) 
+
+void	push_env_var(t_shell *shell, char *key, char *value)
 {
-	t_env *env = shell->env;
-	while (env) 
+	t_env	*env;
+	t_env	*new_env;
+
+	env = shell->env;
+	while (env)
 	{
-		if (strcmp(env->key, key) == 0) 
+		if (ft_strcmp(env->key, key) == 0)
 		{
-            free(env->value);
-            env->value = strdup(value);
-            return;
-        }
-        env = env->next;
-    }
-    
-    // Si la variable n'existe pas, on l'ajoute
-    t_env *new_env = malloc(sizeof(t_env));
-    new_env->key = strdup(key);
-    new_env->value = strdup(value);
-    new_env->next = shell->env;
-    shell->env = new_env;
+			free(env->value);
+			env->value = ft_strdup(value);
+			return ;
+		}
+		env = env->next;
+	}
+	new_env = malloc(sizeof(t_env));
+	new_env->key = ft_strdup(key);
+	new_env->value = ft_strdup(value);
+	new_env->next = shell->env;
+	shell->env = new_env;
 }
 
-int ft_export(char **args, t_shell *shell)
+int	ft_export(char **args, t_shell *shell)
 {
-    int i;
-    int j;
-    char *key;
-    char *value;
+	char	*key;
+	char	*value;
+	int		i;
+	int		j;
 
-    i = 1;
-    while(args[i])
-    {
-        j = 0;
-        while(args[i][j] && args[i][j] != '=')
-            j++;
-        key = ft_substr(args[i], 0, j);
-        value = ft_substr(args[i], j + 1, ft_strlen(args[i]) - j - 1);
-        if (ift_is_valid_env_var(key))
-            push_env_var(shell, key, value);
-        else
-        {
-            ft_putstr_fd("export: `", 2);
-            ft_putstr_fd(key, 2);
-            ft_putstr_fd("': not a valid identifier\n", 2);
-            return 1;
-        }
-        free(key);
-        free(value);
-        i++;
-    }
-    return 0;
+	i = 1;
+	while (args[i])
+	{
+		j = 0;
+		while (args[i][j] && args[i][j] != '=')
+			j++;
+		key = ft_substr(args[i], 0, j);
+		value = ft_substr(args[i], j + 1, ft_strlen(args[i]) - j - 1);
+		if (ift_is_valid_env_var(key))
+			push_env_var(shell, key, value);
+		else
+		{
+			(ft_putstr_fd("export: `", 2), ft_putstr_fd(key, 2));
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (1);
+		}
+		(free(key), free(value));
+		i++;
+	}
+	return (0);
 }
