@@ -6,48 +6,53 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 04:37:42 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/21 21:20:04 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/23 17:40:00 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenize.h"
 #include "minishell.h"
+#include "tokenize.h"
 
 void	free_tokens(t_token **tokens)
 {
 	int	i;
 
 	if (!tokens)
-		return;
+		return ;
 	i = 0;
-	while (tokens[i]) 
-    {
+	while (tokens[i])
+	{
 		if (tokens[i]->value)
-        	free(tokens[i]->value);
-        free(tokens[i]);
-        i++;
-    }
+			free(tokens[i]->value);
+		free(tokens[i]);
+		i++;
+	}
 	free(tokens);
 }
 
-void show_tokens(t_token **tokens)
+void	show_tokens(t_token **tokens)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (tokens[i])
 	{
-		printf("token[%d] = %s type = %d quote = %d\n", i, tokens[i]->value, tokens[i]->type, tokens[i]->quote);
+		printf("token[%d] = %s type = %d quote = %d\n", i, tokens[i]->value,
+			tokens[i]->type, tokens[i]->quote);
 		i++;
 	}
 }
-void	skip_quotes(const char *str,char **res, size_t *i, size_t *j)
+
+void	skip_quotes(const char *str, char **res, size_t *i, size_t *j)
 {
 	char	quote;
+
 	if (str[*i] == '\'' || str[*i] == '"')
 	{
 		quote = str[*i];
-        (*res)[(*j)++] = str[(*i)++];
+		(*res)[(*j)++] = str[(*i)++];
 		while (str[*i] && str[*i] != quote)
-            (*res)[(*j)++] = str[(*i)++];
+			(*res)[(*j)++] = str[(*i)++];
 		if (str[*i] == quote)
 			(*res)[(*j)++] = str[(*i)++];
 	}
@@ -56,7 +61,9 @@ void	skip_quotes(const char *str,char **res, size_t *i, size_t *j)
 int	skip_quotes_syntax(const char *str)
 {
 	char	quote;
-	int i = 0;
+	int		i;
+
+	i = 0;
 	if (str[i] == '\'' || str[i] == '"')
 	{
 		quote = str[i];
@@ -72,8 +79,8 @@ int	skip_quotes_syntax(const char *str)
 t_token	**take_ur_token_and_leave_me_alone(char *line, t_shell *sh)
 {
 	t_token	**new_tokens;
-	char *new_line;
-	
+	char	*new_line;
+
 	if (check_quotes(line) == 0)
 	{
 		sh->exit_status = 2;

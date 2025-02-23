@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:49 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/21 21:25:05 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/23 17:37:31 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	count_tokens(char *line)
 		if (line[i])
 		{
 			count++;
-			i = skip_token(line, i);					
+			i = skip_token(line, i);
 		}
 	}
 	return (count);

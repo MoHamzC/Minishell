@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:44:53 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/21 16:11:13 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/23 17:28:16 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	finalize_tokens(t_token **tokens, t_shell *sh)
 	{
 		tmp = tokens[i]->value;
 		tokens[i]->value = process_complex_token(tmp, sh);
-		if(ft_strcmp(tmp, tokens[i]->value) != 0)
+		if (ft_strcmp(tmp, tokens[i]->value) != 0)
 			tokens[i]->quote = SINGLE_QUOTE;
 		free(tmp);
 		i++;
@@ -105,7 +105,8 @@ int	check_redirection_errors(t_token **tokens)
 		if (is_redir_token(tokens[i]->type))
 		{
 			if (!tokens[i + 1] || tokens[i + 1]->type != WORD)
-				return (ft_putstr_fd("Syntax error: redirection mal forme\n", 2), 0);
+				return (ft_putstr_fd("Syntax error: redirection mal forme\n",
+						2), 0);
 		}
 		i++;
 	}

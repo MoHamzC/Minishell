@@ -6,17 +6,24 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 04:36:19 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/21 16:25:32 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/23 17:32:22 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "tokenize.h"
 #include "minishell.h"
+#include "tokenize.h"
 
-int three_redir(char *line)
+int	is_redir_char(char *c)
 {
-	int i;
-	int count;
+	if (ft_strchr("<>", *c))
+		return (1);
+	return (0);
+}
+
+int	three_redir(char *line)
+{
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -30,6 +37,7 @@ int three_redir(char *line)
 	}
 	return (0);
 }
+
 int	check_quotes(const char *str)
 {
 	char	quote;

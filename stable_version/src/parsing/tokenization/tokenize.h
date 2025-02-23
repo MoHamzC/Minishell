@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 04:33:59 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/21 16:11:31 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/23 17:38:00 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int		is_redir_char(char *c);
 int		three_redir(char *line);
 char	*add_spaces_around_specials(char *input);
 int		skip_quotes_syntax(const char *str);
-void 	skip_quotes(const char *str, char **res, size_t *i, size_t *j);
+void	skip_quotes(const char *str, char **res, size_t *i, size_t *j);
 void	show_tokens(t_token **tokens);
-int 	check_quotes(const char *str);
+int		check_quotes(const char *str);
 
 #endif // TOKENIZE_H
