@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 static t_redir *get_last_redir_of_type(t_redir **redirs, int type)
 {
     int     i;
