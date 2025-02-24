@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 10:42:02 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/23 14:19:03 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/24 15:41:13 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd()
+int	ft_pwd(t_env *envp)
 {
 	char	*s;
 
+	(void)envp;
 	s = NULL;
 	s = getcwd(s, 0);
 	if (!s)
