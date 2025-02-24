@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaningstuff.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:32:10 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/25 21:14:37 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 23:27:41 by mtarento         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	ft_free_tokens(t_token **tokens)
 	free(tokens);
 	tokens = NULL;
 }
-
 
 void	ft_free_commands(t_command *command)
 {
@@ -93,3 +92,15 @@ void	ft_free_args(char **args)
 	}
 	args = NULL;
 }
+
+//not cleaning its for testing
+// t_token	*create_token(char *value, t_cmd_type type, t_word_type quote)
+// {
+// 	t_token	*token;
+
+// 	token = malloc(sizeof(t_token));
+//     token->value = strdup(value);
+//     token->type = type;
+//     token->quote = quote;
+//     return (token);
+// }
