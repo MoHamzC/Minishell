@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaningstuff.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:32:10 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/22 22:06:29 by mtarento         ###   ########.fr       */
+/*   Updated: 2025/02/24 22:16:07 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_token	*create_token(char *value, t_cmd_type type, t_word_type quote)
 	t_token	*token; 
 	
 	token = malloc(sizeof(t_token));
-    token->value = strdup(value);
+    token->value = ft_strdup(value);
     token->type = type;
     token->quote = quote;
     return (token);
