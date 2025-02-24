@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:14:06 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/23 17:47:34 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/24 21:55:47 by mtarento         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	ft_loop(t_shell *shell)
 		shell->cmds = parse_tokens(tokens);
 		executor(shell);
 		free_tokens(tokens);
+		ft_free_commands(shell->cmds);
 		free(line);
 	}
 	(free(line), rl_clear_history());
