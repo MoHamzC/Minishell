@@ -62,7 +62,6 @@ banner:
 
 # Prépare le compteur de progression
 prepare_progress:
-	@tput clear
 	@echo 0 > .progress_counter
 
 # Compilation des fichiers .c en .o avec mise à jour de la barre de progression

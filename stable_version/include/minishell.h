@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/24 21:53:36 by mtarento         ###   ########.fr       */
+/*   Updated: 2025/02/25 00:26:28 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int		ft_isspace(char c);
 t_token	**tokenize(char *line);
 int		post_tokenize(t_token **tokens, t_shell *shell);
 void	free_tokens(t_token **tokens);
-
+void	show_tokens(t_token **tokens);
 t_env	*ft_envlst_new(char *key, char *value);
 void	ft_envlst_add_back(t_env **lst, t_env *new);
 t_env	*init_env(char **envp);
