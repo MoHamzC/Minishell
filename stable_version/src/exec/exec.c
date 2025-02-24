@@ -99,7 +99,7 @@ int executor(t_shell *shell)
     if ((is_builtin(current->args[0]) != NOT_BUILTIN) && size == 1 && !current->next
             && redi == 0)
     {
-        rl_outstream = stderr;
+        // rl_outstream = stderr;
         handle_redirections(current, &exec);
         exec_builtin(shell->cmds, shell->env, shell);
         dup2(exec.stdout_backup, STDOUT_FILENO);

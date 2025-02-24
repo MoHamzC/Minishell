@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/24 15:42:01 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/24 21:53:36 by mtarento         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,6 +127,7 @@ t_token	**take_ur_token_and_leave_me_alone(char *line, t_shell *sh);
 int is_redir_token(t_cmd_type type);
 
 // parsing
+void ft_free_commands(t_command *command);
 
 //  create_command.c
 t_command *new_command(void);

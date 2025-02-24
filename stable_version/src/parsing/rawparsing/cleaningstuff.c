@@ -6,23 +6,70 @@
 /*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:32:10 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/22 21:53:05 by mtarento         ###   ########.fr       */
+/*   Updated: 2025/02/22 22:06:29 by mtarento         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-void ft_free_redirs(t_redir **redir)
+//not cleaning its for testing
+t_token	*create_token(char *value, t_cmd_type type, t_word_type quote)
 {
-	int i; 
-	i = 0; 
-	if(redir)
+	t_token	*token; 
+	
+	token = malloc(sizeof(t_token));
+    token->value = strdup(value);
+    token->type = type;
+    token->quote = quote;
+    return (token);
+}
+
+void	ft_free_tokens(t_token **tokens)
+{
+	int	i;
+
+	i = 0;
+	while (tokens[i])
 	{
-	free(redir[i]->file);
-	free(redir[i]); 
-	i++; 
+		free(tokens[i]->value);
+		free(tokens[i]);
+		i++;
 	}
-	free(redir); 
+	free(tokens);
+}
+
+
+void	ft_free_commands(t_command *command)
+{
+	t_command	*current;
+	t_command	*next;
+
+	current = command;
+	while (current)
+	{
+		next = current->next;
+		ft_free_args(current->args);
+		ft_free_redirs(current->redir);
+		free(current);
+		current = next;
+	}
+}
+
+void	ft_free_redirs(t_redir **redir)
+{
+	int	i;
+
+	i = 0;
+	if (redir)
+	{
+		while (redir[i])
+		{
+			free(redir[i]->file);
+			free(redir[i]);
+			i++;
+		}
+		free(redir);
+	}
 }
 
 void	ft_free_args(char **args)
@@ -38,20 +85,5 @@ void	ft_free_args(char **args)
 			i++;
 		}
 		free(args);
-	}
-}
-
-void ft_free_commands(t_command *command)
-{
-	t_command *current; 
-	t_command *next; 
-
-	current = command; 
-	while(current)
-	{
-		next = current->next; 
-		ft_free_args(current->args); 
-		ft_free_redirs(current->redir); 
-		free(current); 
 	}
 }

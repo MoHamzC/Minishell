@@ -10,9 +10,17 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
 
     // functions to test
     t_token **tokens = take_ur_token_and_leave_me_alone(input, &shell);
+    if (!tokens || !tokens[0])
+    {
+        if (tokens)
+            free(tokens);
+        free(input);
+        return 0;
+    }
+    shell.cmds = parse_tokens(tokens);
+
     free_tokens(tokens);
-
+    ft_free_commands(shell.cmds);
 	free(input);
-
 	return 0;
 }
