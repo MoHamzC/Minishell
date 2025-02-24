@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:12:54 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/23 13:56:17 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/24 22:13:37 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	ft_exit(int argc, char **argv, t_shell *shell)
 			exit_status = 2;
 			(free(shell), exit(exit_status));
 		}
-		exit_status = atoi(argv[1]);
+		exit_status = ft_atoi(argv[1]);
 	}
 	if (exit_status < 0)
 		exit_status += 256;

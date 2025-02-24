@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 03:51:25 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/23 17:37:07 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/24 22:12:38 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*alloc_result(const char *input)
 	size_t	len;
 	char	*res;
 
-	len = strlen(input);
+	len = ft_strlen(input);
 	res = malloc(3 * len + 1);
 	return (res);
 }
