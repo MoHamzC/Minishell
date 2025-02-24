@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 00:22:59 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/21 18:30:41 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/24 18:40:59 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,6 @@ t_env	*init_env(char **envp)
 	return (env_lst);
 }
 
-void	free_env(t_env *env)
-{
-	t_env	*tmp;
-
-	while (env)
-	{
-		tmp = env;
-		env = env->next;
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp);
-	}
-}
 char	*builtin_get_envv(t_env *env, char *key)
 {
 	while (env)
