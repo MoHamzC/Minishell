@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 23:22:59 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:42:01 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 	{
 		if (cmd->next)
 		{
-			if (fork() == 0)
+			if (cmd->pid == 0)
 			{
 				status = exec_builtin(cmd, shell->env, shell);
 				free_env_array(&exec->env_arr);
