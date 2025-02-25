@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 21:09:58 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 21:55:13 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,13 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 			if (fork() == 0)
 			{
 				status = exec_builtin(cmd, shell->env, shell);
-				free_env_array(exec->env_arr);
+				free_env_array(&exec->env_arr);
 				free_env(shell->env);
 				exit(status);
 			} 
-			return (ft_free_commands(cmd), free_env_array(exec->env_arr), free_env(shell->env), restore_std_fds(exec), 0);
+			return (ft_free_commands(cmd), free_env_array(&exec->env_arr), free_env(shell->env), restore_std_fds(exec), 0);
 		}
-		return (restore_std_fds(exec), free_env_array(exec->env_arr), exec_builtin(cmd, shell->env, shell));
+		return (restore_std_fds(exec), free_env_array(&exec->env_arr), exec_builtin(cmd, shell->env, shell));
 	}
 	path_dirs = get_path_dirs(exec->env_arr);
 	cmd_path = find_command_path(cmd->args[0], path_dirs);
@@ -46,7 +46,7 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 	if (!cmd_path)
 		return (handle_cmd_not_found(cmd->args[0]), restore_std_fds(exec), 127);
 	if (execve(cmd_path, cmd->args, exec->env_arr) == -1)
-		return (free(cmd_path),ft_free_commands(cmd), free_env_array(exec->env_arr),print_exec_error(cmd->args[0],
+		return (free(cmd_path),ft_free_commands(cmd), free_env_array(&exec->env_arr),print_exec_error(cmd->args[0],
 				strerror(errno)), restore_std_fds(exec), 126);
 	return (0);
 }
@@ -76,7 +76,7 @@ int	executor(t_shell *shell)
 	if (is_single_builtin(current))
 	{
 		status = do_builtin(&exec, current, shell, heredoc_files);
-		free_env_array(exec.env_arr);
+		free_env_array(&exec.env_arr);
 		return (status);
 	}
 	pipe_data.prev_pipe_read = -1;
@@ -87,7 +87,7 @@ int	executor(t_shell *shell)
 		if (current->pid == 0)
 		{
 			status = exec_command(shell, current, &exec, &pipe_data);
-			free_env_array(exec.env_arr);
+			free_env_array(&exec.env_arr);
 			if (!current->next)
 			{
 				free_env(shell->env);
@@ -100,6 +100,6 @@ int	executor(t_shell *shell)
 		current = current->next;
 	}
 	g_sig_received = 0;
-	free_env_array(exec.env_arr);
+	free_env_array(&exec.env_arr);
 	return (wait_c(shell), clean_heredoc_f(heredoc_files), shell->exit_status);
 }

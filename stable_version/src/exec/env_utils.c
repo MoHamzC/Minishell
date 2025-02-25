@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:37:57 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 17:41:14 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/25 21:56:04 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	**env_list_to_array(t_env *env)
 		arr[i] = create_env_string(current->key, current->value);
 		if (!arr[i])
 		{
-			free_env_array(arr);
+			free_env_array(&arr);
 			return (NULL);
 		}
 		current = current->next;
@@ -68,17 +68,21 @@ char	**env_list_to_array(t_env *env)
 	return (arr);
 }
 
-void	free_env_array(char **env_arr)
+void free_env_array(char ***env_arr_ptr)
 {
-	int	i;
+    char **env_arr = *env_arr_ptr;
+    int i = 0;
 
-	if (!env_arr)
-		return ;
-	i = 0;
-	while (env_arr[i])
-	{
-		free(env_arr[i]);
-		i++;
-	}
-	free(env_arr);
+    if (!env_arr)
+        return;
+
+    while (env_arr[i])
+    {
+        printf("freeing %s\n", env_arr[i]);
+        free(env_arr[i]);
+        env_arr[i] = NULL;
+        i++;
+    }
+    free(env_arr);
+    *env_arr_ptr = NULL;
 }

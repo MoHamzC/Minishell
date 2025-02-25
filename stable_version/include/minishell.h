@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/25 20:34:00 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 21:50:41 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,8 +199,8 @@ void        restore_std_fds(t_exec_data *exec);
 
 /* Environment */
 char        **env_list_to_array(t_env *env);
-void        free_env_array(char **env_arr);
-char        *get_env_value(t_env *env, char *key);
+void free_env_array(char ***env_arr_ptr);
+char *get_env_value(t_env *env, char *key);
 
 /* Error handling */
 void        print_exec_error(char *cmd, char *error);

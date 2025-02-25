@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:31:10 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/25 21:26:21 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 21:27:45 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN);
 	shell.env = init_env(envp);
 	ft_loop(&shell);
-	printf("%p\n", shell.env);
 	free_env(shell.env);
 	return (0);
 }
