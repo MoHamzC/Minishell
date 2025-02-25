@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 17:50:05 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:05:35 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ volatile sig_atomic_t	g_sig_received = 0;
 int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 {
 	char	*cmd_path;
+	char	**path_dirs;
 	int 	status;
 	
 	if (!cmd->args || !cmd->args[0])
@@ -38,11 +39,13 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 		}
 		return (restore_std_fds(exec), exec_builtin(cmd, shell->env, shell));
 	}
-	cmd_path = find_command_path(cmd->args[0], get_path_dirs(exec->env_arr));
+	path_dirs = get_path_dirs(exec->env_arr);
+	cmd_path = find_command_path(cmd->args[0], path_dirs);
+	free(path_dirs);
 	if (!cmd_path)
 		return (handle_cmd_not_found(cmd->args[0]), restore_std_fds(exec), 127);
 	if (execve(cmd_path, cmd->args, exec->env_arr) == -1)
-		return (free(cmd_path),ft_free_commands(cmd), print_exec_error(cmd->args[0],
+		return (free(cmd_path),ft_free_commands(cmd), free_env_array(exec->env_arr),print_exec_error(cmd->args[0],
 				strerror(errno)), restore_std_fds(exec), 126);
 	return (0);
 }
@@ -62,14 +65,19 @@ int	executor(t_shell *shell)
 	t_command	*current;
 	t_pipe_data	pipe_data;
 	char		**heredoc_files;
-
+	int 		status;
+	
 	current = shell->cmds;
 	init_exec_data(&exec, shell);
 	heredoc_files = process_heredocs(shell->cmds);
 	if (verif_heredoc(heredoc_files, current, shell) == 1)
 		return (1);
 	if (is_single_builtin(current))
-		return (do_builtin(&exec, current, shell, heredoc_files));
+	{
+		status = do_builtin(&exec, current, shell, heredoc_files);
+		free_env_array(exec.env_arr);
+		return (status);
+	}
 	pipe_data.prev_pipe_read = -1;
 	while (current)
 	{
@@ -82,5 +90,6 @@ int	executor(t_shell *shell)
 		current = current->next;
 	}
 	g_sig_received = 0;
+	free_env_array(exec.env_arr);
 	return (wait_c(shell), clean_heredoc_f(heredoc_files), shell->exit_status);
 }
