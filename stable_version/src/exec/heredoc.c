@@ -6,7 +6,7 @@
 /*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:29:45 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/24 20:34:56 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:32:45 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ static int	create_heredoc_file(char *delimiter, char *filename)
 		{
 			error_line2(fd, line);
 			if (g_heredoc_interrupted)
-				return (-1);
+				return (close(fd), -1);
 			ft_putstr_fd("\n", 1);
-			return (0);
+			return (close(fd), 0);
 		}
 		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
 			&& line[ft_strlen(delimiter)] == '\n')
-			return (free(line), 0);
+			return (free(line), close(fd), 0);
 		ft_putstr_fd(line, fd);
 		free(line);
 	}
