@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:22:28 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/24 17:09:13 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:44:15 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,8 @@ int	exec_builtin(t_command *cmd, t_env *env, t_shell *shell)
 		shell->exit_status = ft_env(env);
 	else if (cmd->builtin_value == EXIT)
 		shell->exit_status = ft_exit(cmd->argc, cmd->args, shell);
+	if (!cmd->next)
+		free_env(shell->env);
+	ft_free_commands(cmd);
 	return (shell->exit_status);
 }

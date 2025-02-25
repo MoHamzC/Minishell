@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 20:58:17 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/22 22:01:24 by mtarento         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:06:07 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	add_argument(t_command *cmd, char *arg)
 		i++;
 	}
 	new_args[size] = ft_strdup(arg);
-	free(cmd->args);
 	cmd->args = new_args;
 	cmd->argc = size + 1;
 }
@@ -116,6 +115,7 @@ t_command	*parse_tokens(t_token **tokens)
 	}
 	if (current->args && current->args[0])
 		current->builtin_value = whichbuiltin(current->args[0]);
+	printf("cmds = %s\n", cmds->args[0]);
 	return (cmds);
 }
 

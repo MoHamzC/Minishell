@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/25 17:00:49 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:34:00 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,4 +211,7 @@ void        exit_with_error(char *msg, int code);
 /* Pipe handling */
 int         setup_pipes(t_pipe_ends *pipes);
 void        close_pipe_ends(t_pipe_ends *pipes);
+
+void ft_free_args(char **args);
+
 #endif

@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:14:06 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/25 17:18:48 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:39:16 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,6 @@ void	ft_loop(t_shell *shell)
 		free(line);
 	}
 	(free(line), rl_clear_history());
-	free_env(shell->env);
+	if (shell->env)
+		free_env(shell->env);
 }
