@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:31:10 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/24 18:41:29 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:08:08 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	handle_sigint(int sig)
 {
 	(void)sig;
-	if (sig_received == 1)
+	if (g_sig_received == 1)
 	{
 		write(STDOUT_FILENO, "\n", 1);
-		sig_received = 0;
+		g_sig_received = 0;
 	}
 	else
 	{
