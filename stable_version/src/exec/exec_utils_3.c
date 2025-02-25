@@ -6,7 +6,7 @@
 /*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 16:21:20 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 16:54:04 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:27:37 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	handle_command2(t_command *cmd, int pipe_fds[2], char **heredoc_files)
 
 int	is_single_builtin(t_command *cmd)
 {
+	if (!cmd->args || !cmd->args[0])
+		return (0);
 	return ((is_builtin(cmd->args[0]) != NOT_BUILTIN) && cmd_size(cmd) == 1
 		&& !cmd->next && cmd_size_redi(cmd) == 0);
 }
