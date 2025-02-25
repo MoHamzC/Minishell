@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 17:18:41 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:50:05 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,23 @@ volatile sig_atomic_t	g_sig_received = 0;
 int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 {
 	char	*cmd_path;
-
+	int 	status;
+	
 	if (!cmd->args || !cmd->args[0])
 		return (0);
 	backup_std_fds(exec);
 	if (handle_redirections(cmd) != 0)
-		return (restore_std_fds(exec), 1);
+		return (ft_free_commands(cmd), restore_std_fds(exec), 1);
 	if (is_builtin(cmd->args[0]) != NOT_BUILTIN)
 	{
 		if (cmd->next)
 		{
 			if (fork() == 0)
-				exit(exec_builtin(cmd, shell->env, shell));
+			{
+				status = exec_builtin(cmd, shell->env, shell);
+				ft_free_commands(cmd);
+				exit(status);
+			}
 			return (restore_std_fds(exec), 0);
 		}
 		return (restore_std_fds(exec), exec_builtin(cmd, shell->env, shell));
@@ -37,7 +42,7 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 	if (!cmd_path)
 		return (handle_cmd_not_found(cmd->args[0]), restore_std_fds(exec), 127);
 	if (execve(cmd_path, cmd->args, exec->env_arr) == -1)
-		return (free(cmd_path), print_exec_error(cmd->args[0],
+		return (free(cmd_path),ft_free_commands(cmd), print_exec_error(cmd->args[0],
 				strerror(errno)), restore_std_fds(exec), 126);
 	return (0);
 }
