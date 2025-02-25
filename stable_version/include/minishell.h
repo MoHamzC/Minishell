@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/25 00:26:28 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 17:00:49 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include <readline/history.h>
 # include <signal.h>
 
-extern volatile sig_atomic_t sig_received;
+extern volatile sig_atomic_t g_sig_received;
 
 typedef enum e_builtin
 {
@@ -112,6 +112,12 @@ typedef struct s_exec_data
     int     stdout_backup;
 }               t_exec_data;
 
+typedef struct s_pipe_data
+{
+	int	pipe_fds[2];
+	int	prev_pipe_read;
+}	t_pipe_data;
+
 //tokenize
 int		ft_isspace(char c);
 t_token	**tokenize(char *line);
@@ -159,11 +165,26 @@ void	ft_loop(t_shell *shell);
 int         executor(t_shell *shell);
 int         exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec);
 void        init_exec_data(t_exec_data *exec, t_shell *shell);
-void    	wait_all_children(t_shell *shell);
+void    	wait_c(t_shell *shell);
 int			exec_builtin(t_command *cmd, t_env *env, t_shell *shell);
 int    		is_builtin(char *cmd);
 char 		**process_heredocs(t_command *cmds);
-void 		cleanup_heredoc_files(char **heredoc_files);
+void 		clean_heredoc_f(char **heredoc_files);
+void		error_line2(int fd, char *line);
+int			count_heredocs(t_command *cmds);
+void		cleanup_heredocs(char **heredoc_fi, int count);
+char		*get_heredoc_filename(void);
+int			cmd_size(t_command	*cmds);
+int			cmd_size_redi(t_command *cmds);
+int			verif_heredoc(char	**files, t_command *cmds, t_shell *shell);
+int			pipe_fork(t_command *cmds, int *pipe_fds, char **file);
+int	update_pipe_read(int prev_pipe_read, t_command *cmds, int *pipe_fds);
+int	do_builtin(t_exec_data *exec, t_command *cmd, t_shell *shell, char **files);
+int	exec_command(t_shell *shell, t_command *cmd, t_exec_data *exec,
+		t_pipe_data *pipe_data);
+int	handle_command2(t_command *cmd, int pipe_fds[2], char **heredoc_files);
+int	is_single_builtin(t_command *cmd);
+
 
 /* Path handling */
 char        *find_command_path(char *cmd, char **env_paths);
@@ -171,7 +192,7 @@ char        **get_path_dirs(char **env);
 int         check_command_access(char *cmd_path);
 
 /* Redirections */
-int   		 handle_redirections(t_command *cmd, t_exec_data *exec);
+int   		 handle_redirections(t_command *cmd);
 void        reset_redirections(t_exec_data *exec);
 void        backup_std_fds(t_exec_data *exec);
 void        restore_std_fds(t_exec_data *exec);

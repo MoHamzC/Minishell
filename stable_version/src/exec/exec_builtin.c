@@ -1,4 +1,16 @@
-#include"minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_builtin.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/24 16:22:28 by calberti          #+#    #+#             */
+/*   Updated: 2025/02/24 17:09:13 by calberti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
 
 int	exec_builtin(t_command *cmd, t_env *env, t_shell *shell)
 {
@@ -16,7 +28,5 @@ int	exec_builtin(t_command *cmd, t_env *env, t_shell *shell)
 		shell->exit_status = ft_env(env);
 	else if (cmd->builtin_value == EXIT)
 		shell->exit_status = ft_exit(cmd->argc, cmd->args, shell);
-	return(shell->exit_status);
+	return (shell->exit_status);
 }
-
-// export, unset, cd pas dans des fork

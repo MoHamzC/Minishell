@@ -1,159 +1,81 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
+/*   Updated: 2025/02/25 16:54:04 by calberti         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-volatile sig_atomic_t	sig_received = 0;
+volatile sig_atomic_t	g_sig_received = 0;
 
-int    exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
+int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 {
-    char    *cmd_path;
-    char    **path_dirs;
+	char	*cmd_path;
 
-    if (!cmd->args || !cmd->args[0])
+	if (!cmd->args || !cmd->args[0])
 		return (0);
-    if (handle_redirections(cmd, exec) != 0)
-        return (1);
-    if (is_builtin(cmd->args[0]) != NOT_BUILTIN)
-    {
-        if (cmd->next) // Si le built-in est dans un pipeline, il faut le forker
-        {
-            if (fork() == 0)
-            {
-                exec_builtin(cmd, shell->env, shell);
-                exit(shell->exit_status); // On sort du processus enfant
-            }
-            return (0); // On ne l'exécute pas dans le parent
-        }
-        return (exec_builtin(cmd, shell->env, shell));
-    }
-    path_dirs = get_path_dirs(exec->env_arr);
-    cmd_path = find_command_path(cmd->args[0], path_dirs);
-    if (!cmd_path)
-    {
-        handle_cmd_not_found(cmd->args[0]);
-        return (127);
-    }
-    if (execve(cmd_path, cmd->args, exec->env_arr) == -1)
-    {
-        free(cmd_path);
-        print_exec_error(cmd->args[0], strerror(errno));
-        return (126);
-    }
-    return (0);
+	backup_std_fds(exec);
+	if (handle_redirections(cmd) != 0)
+		return (restore_std_fds(exec), 1);
+	if (is_builtin(cmd->args[0]) != NOT_BUILTIN)
+	{
+		if (cmd->next)
+		{
+			if (fork() == 0)
+				exit(exec_builtin(cmd, shell->env, shell));
+			return (restore_std_fds(exec), 0);
+		}
+		return (restore_std_fds(exec), exec_builtin(cmd, shell->env, shell));
+	}
+	cmd_path = find_command_path(cmd->args[0], get_path_dirs(exec->env_arr));
+	if (!cmd_path)
+		return (handle_cmd_not_found(cmd->args[0]), restore_std_fds(exec), 127);
+	if (execve(cmd_path, cmd->args, exec->env_arr) == -1)
+		return (free(cmd_path), print_exec_error(cmd->args[0],
+				strerror(errno)), restore_std_fds(exec), 126);
+	return (0);
 }
 
-void    init_exec_data(t_exec_data *exec, t_shell *shell)
+void	init_exec_data(t_exec_data *exec, t_shell *shell)
 {
-    exec->env_arr = env_list_to_array(shell->env);
-    exec->last_status = 0;
-    exec->stdin_backup = dup(STDIN_FILENO);
-    exec->stdout_backup = dup(STDOUT_FILENO);
-    sig_received = 1;
+	exec->env_arr = env_list_to_array(shell->env);
+	exec->last_status = 0;
+	exec->stdin_backup = -1;
+	exec->stdout_backup = -1;
+	g_sig_received = 1;
 }
 
-int executor(t_shell *shell)
+int	executor(t_shell *shell)
 {
-    t_exec_data exec;
-    t_command *current;
-    t_command *current2;
-    int pipe_fds[2];
-    int prev_pipe_read;
-    char **heredoc_files;
+	t_exec_data	exec;
+	t_command	*current;
+	t_pipe_data	pipe_data;
+	char		**heredoc_files;
 
-    current = shell->cmds;
-    current2 = shell->cmds;
-    int size = 0;
-    while (current2 != NULL)
-    {
-        current2 = current2->next;
-        size++;
-    }
-    init_exec_data(&exec, shell);
-
-    heredoc_files = process_heredocs(shell->cmds);
-    if (!heredoc_files && shell->cmds && shell->cmds->redir)
-    {
-        // Check si heredoc a ete interompu
-        int i = 0;
-        while (shell->cmds->redir[i])
-        {
-            if (shell->cmds->redir[i]->type == HERE_DOC)
-            {
-                shell->exit_status = 1;
-                return (1);
-            }
-            i++;
-        }
-    }
-    //pour voir si y a pas de redir d'entrer poour un builtin seul
-    current2 = shell->cmds;
-    int j = 0;
-    int redi = 0;
-    if (current2->redir)
-    {
-        while (current2->redir[j])
-        {
-            if (current2->redir[j]->type == HERE_DOC || current2->redir[j]->type == REDIRIN)
-                redi = 1;
-            j++;
-        }
-    }
-    if ((is_builtin(current->args[0]) != NOT_BUILTIN) && size == 1 && !current->next
-            && redi == 0)
-    {
-        // rl_outstream = stderr;
-        handle_redirections(current, &exec);
-        exec_builtin(shell->cmds, shell->env, shell);
-        dup2(exec.stdout_backup, STDOUT_FILENO);
-        close(exec.stdout_backup);
-        cleanup_heredoc_files(heredoc_files);
-        return (shell->exit_status);
-    }
-
-    prev_pipe_read = -1;
-
-    while (current)
-    {
-        if (current->next && pipe(pipe_fds) < 0)
-        {
-            cleanup_heredoc_files(heredoc_files);
-            return (print_file_error("pipe", strerror(errno)));
-        }
-
-        current->pid = fork();
-        if (current->pid < 0)
-        {
-            cleanup_heredoc_files(heredoc_files);
-            return (print_file_error("fork", strerror(errno)));
-        }
-
-        if (current->pid == 0)
-        {
-            if (prev_pipe_read != -1)
-            {
-                dup2(prev_pipe_read, STDIN_FILENO);
-                close(prev_pipe_read);
-            }
-            if (current->next)
-            {
-                close(pipe_fds[0]);
-                dup2(pipe_fds[1], STDOUT_FILENO);
-                close(pipe_fds[1]);
-            }
-            exit(exec_single_cmd(shell, current, &exec));
-        }
-
-        if (prev_pipe_read != -1)
-            close(prev_pipe_read);
-        if (current->next)
-        {
-            close(pipe_fds[1]);
-            prev_pipe_read = pipe_fds[0];
-        }
-        current = current->next;
-    }
-
-    wait_all_children(shell);
-    cleanup_heredoc_files(heredoc_files);
-    sig_received = 0;
-    return (shell->exit_status);
+	current = shell->cmds;
+	init_exec_data(&exec, shell);
+	heredoc_files = process_heredocs(shell->cmds);
+	if (verif_heredoc(heredoc_files, current, shell) == 1)
+		return (1);
+	if (is_single_builtin(current))
+		return (do_builtin(&exec, current, shell, heredoc_files));
+	pipe_data.prev_pipe_read = -1;
+	while (current)
+	{
+		if (handle_command2(current, pipe_data.pipe_fds, heredoc_files) == 1)
+			return (1);
+		if (current->pid == 0)
+			exit(exec_command(shell, current, &exec, &pipe_data));
+		pipe_data.prev_pipe_read = update_pipe_read(pipe_data.prev_pipe_read,
+				current, pipe_data.pipe_fds);
+		current = current->next;
+	}
+	g_sig_received = 0;
+	return (wait_c(shell), clean_heredoc_f(heredoc_files), shell->exit_status);
 }
-
