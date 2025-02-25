@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 18:05:35 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 18:17:07 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,15 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 			if (fork() == 0)
 			{
 				status = exec_builtin(cmd, shell->env, shell);
+				free_env_array(exec->env_arr);
 				ft_free_commands(cmd);
+				free_env(shell->env);
 				exit(status);
-			}
-			return (restore_std_fds(exec), 0);
+			} 
+			return (ft_free_commands(cmd), free_env_array(exec->env_arr), restore_std_fds(exec), 0);
 		}
-		return (restore_std_fds(exec), exec_builtin(cmd, shell->env, shell));
+		return (ft_free_commands(cmd), free_env_array(exec->env_arr),
+				restore_std_fds(exec), exec_builtin(cmd, shell->env, shell));
 	}
 	path_dirs = get_path_dirs(exec->env_arr);
 	cmd_path = find_command_path(cmd->args[0], path_dirs);
