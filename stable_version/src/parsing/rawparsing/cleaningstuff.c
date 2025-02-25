@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:32:10 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/26 00:39:37 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:49:03 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	ft_free_tokens(t_token **tokens)
 		i++;
 	}
 	free(tokens);
-	*tokens = NULL;
 }
 
 
@@ -48,6 +47,8 @@ void	ft_free_commands(t_command **command_ptr)
 	t_command	*next;
 
 	current = *command_ptr;
+	if (*command_ptr == NULL)
+		return ;
 	while (current)
 	{
 		next = current->next;
@@ -76,7 +77,6 @@ void	ft_free_redirs(t_redir **redir)
 		}
 		free(redir);
 	}
-	*redir = NULL;
 }
 
 void	ft_free_args(char **args)
@@ -93,5 +93,4 @@ void	ft_free_args(char **args)
 		}
 		free(args);
 	}
-	*args = NULL;
 }

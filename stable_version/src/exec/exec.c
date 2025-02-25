@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 00:42:01 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 00:52:02 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,16 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 				status = exec_builtin(cmd, shell->env, shell);
 				free_env_array(&exec->env_arr);
 				free_env(shell->env);
+				ft_free_commands(&shell->cmds);
 				restore_std_fds(exec);
 				exit(status);
-			} 
+			}
 			return (free_env_array(&exec->env_arr), free_env(shell->env), restore_std_fds(exec), 0);
 		}
-		return (restore_std_fds(exec), free_env_array(&exec->env_arr), exec_builtin(cmd, shell->env, shell));
+		status = exec_builtin(cmd, shell->env, shell);
+		free_env_array(&exec->env_arr);
+		restore_std_fds(exec);
+		return (status);
 	}
 	path_dirs = get_path_dirs(exec->env_arr);
 	cmd_path = find_command_path(cmd->args[0], path_dirs);
@@ -95,9 +99,7 @@ int	executor(t_shell *shell)
 			status = exec_command(shell, current, &exec, &pipe_data);
 			free_env_array(&exec.env_arr);
 			if (!current->next)
-			{
 				free_env(shell->env);
-			}
 			ft_free_commands(&shell->cmds);
 			exit(status);
 		}
