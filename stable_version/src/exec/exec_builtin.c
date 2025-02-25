@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:22:28 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 21:52:55 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:02:29 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,6 @@ int	exec_builtin(t_command *cmd, t_env *env, t_shell *shell)
 	else if (cmd->builtin_value == EXIT)
 		shell->exit_status = ft_exit(cmd->argc, cmd->args, shell);
 	if(cmd->next)
-			ft_free_commands(cmd);
+			ft_free_commands(&cmd);
 	return (shell->exit_status);
 }

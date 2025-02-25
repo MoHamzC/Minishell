@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:37:57 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 21:56:04 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 22:07:12 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ void free_env_array(char ***env_arr_ptr)
 
     while (env_arr[i])
     {
-        printf("freeing %s\n", env_arr[i]);
         free(env_arr[i]);
         env_arr[i] = NULL;
         i++;

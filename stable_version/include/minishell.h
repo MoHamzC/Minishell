@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/25 21:50:41 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 23:19:39 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_shell
 {
 	t_command	*cmds;
 	t_env		*env;
+	char		**here_docs;
 	int         exit_status;
 }	t_shell;
 
@@ -133,7 +134,7 @@ t_token	**take_ur_token_and_leave_me_alone(char *line, t_shell *sh);
 int is_redir_token(t_cmd_type type);
 
 // parsing
-void ft_free_commands(t_command *command);
+void ft_free_commands(t_command **command);
 
 //  create_command.c
 t_command *new_command(void);

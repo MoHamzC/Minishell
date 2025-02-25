@@ -20,7 +20,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     shell.cmds = parse_tokens(tokens);
 
     free_tokens(tokens);
-    ft_free_commands(shell.cmds);
+    ft_free_commands(&shell.cmds);
 	free(input);
 	return 0;
 }

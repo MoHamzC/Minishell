@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 21:55:13 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 23:22:59 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 		return (0);
 	backup_std_fds(exec);
 	if (handle_redirections(cmd) != 0)
-		return (ft_free_commands(cmd), restore_std_fds(exec), 1);
+		return (restore_std_fds(exec), 1);
 	if (is_builtin(cmd->args[0]) != NOT_BUILTIN)
 	{
 		if (cmd->next)
@@ -34,9 +34,10 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 				status = exec_builtin(cmd, shell->env, shell);
 				free_env_array(&exec->env_arr);
 				free_env(shell->env);
+				restore_std_fds(exec);
 				exit(status);
 			} 
-			return (ft_free_commands(cmd), free_env_array(&exec->env_arr), free_env(shell->env), restore_std_fds(exec), 0);
+			return (free_env_array(&exec->env_arr), free_env(shell->env), restore_std_fds(exec), 0);
 		}
 		return (restore_std_fds(exec), free_env_array(&exec->env_arr), exec_builtin(cmd, shell->env, shell));
 	}
@@ -44,10 +45,10 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 	cmd_path = find_command_path(cmd->args[0], path_dirs);
 	ft_free_args(path_dirs);
 	if (!cmd_path)
-		return (handle_cmd_not_found(cmd->args[0]), restore_std_fds(exec), 127);
+		return (handle_cmd_not_found(cmd->args[0]),restore_std_fds(exec),clean_heredoc_f(shell->here_docs), 127);
 	if (execve(cmd_path, cmd->args, exec->env_arr) == -1)
-		return (free(cmd_path),ft_free_commands(cmd), free_env_array(&exec->env_arr),print_exec_error(cmd->args[0],
-				strerror(errno)), restore_std_fds(exec), 126);
+		return (free(cmd_path),ft_free_commands(&cmd),free_env_array(&exec->env_arr), print_exec_error(cmd->args[0], strerror(errno)),
+				restore_std_fds(exec), 126);
 	return (0);
 }
 
@@ -71,8 +72,13 @@ int	executor(t_shell *shell)
 	current = shell->cmds;
 	init_exec_data(&exec, shell);
 	heredoc_files = process_heredocs(shell->cmds);
+	shell->here_docs = heredoc_files;
 	if (verif_heredoc(heredoc_files, current, shell) == 1)
+	{
+		clean_heredoc_f(heredoc_files);
+		free_env_array(&exec.env_arr);
 		return (1);
+	}
 	if (is_single_builtin(current))
 	{
 		status = do_builtin(&exec, current, shell, heredoc_files);
@@ -91,8 +97,8 @@ int	executor(t_shell *shell)
 			if (!current->next)
 			{
 				free_env(shell->env);
-				ft_free_commands(shell->cmds);
 			}
+			ft_free_commands(&shell->cmds);
 			exit(status);
 		}
 		pipe_data.prev_pipe_read = update_pipe_read(pipe_data.prev_pipe_read,
