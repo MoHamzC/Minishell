@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:31:10 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/25 17:08:08 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:46:53 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	free_env(t_env *env)
 		free(tmp->value);
 		free(tmp);
 	}
+	env = NULL;
 }
 
 int	main(int argc, char **argv, char **envp)

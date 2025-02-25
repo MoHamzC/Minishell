@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:32:10 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/24 22:16:07 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:47:37 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,4 +86,5 @@ void	ft_free_args(char **args)
 		}
 		free(args);
 	}
+	args = NULL;
 }
