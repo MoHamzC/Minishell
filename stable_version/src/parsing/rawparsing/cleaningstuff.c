@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:32:10 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/25 20:52:05 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 21:14:37 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void	ft_free_tokens(t_token **tokens)
 	int	i;
 
 	i = 0;
+	if (tokens == NULL)
+		return ;
 	while (tokens[i])
 	{
 		free(tokens[i]->value);
