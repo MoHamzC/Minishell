@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 20:58:17 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/25 20:06:07 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:52:25 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ t_command	*parse_tokens(t_token **tokens)
 	}
 	if (current->args && current->args[0])
 		current->builtin_value = whichbuiltin(current->args[0]);
-	printf("cmds = %s\n", cmds->args[0]);
 	return (cmds);
 }
 

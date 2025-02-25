@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 20:38:42 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 21:09:58 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,11 @@ int	executor(t_shell *shell)
 		{
 			status = exec_command(shell, current, &exec, &pipe_data);
 			free_env_array(exec.env_arr);
-			ft_free_commands(current);
-			free_env(shell->env);
+			if (!current->next)
+			{
+				free_env(shell->env);
+				ft_free_commands(shell->cmds);
+			}
 			exit(status);
 		}
 		pipe_data.prev_pipe_read = update_pipe_read(pipe_data.prev_pipe_read,

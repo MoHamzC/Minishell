@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:32:10 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/25 20:47:37 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 20:52:05 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	ft_free_tokens(t_token **tokens)
 		i++;
 	}
 	free(tokens);
+	tokens = NULL;
 }
 
 
@@ -53,6 +54,7 @@ void	ft_free_commands(t_command *command)
 		free(current);
 		current = next;
 	}
+	command = NULL;
 }
 
 void	ft_free_redirs(t_redir **redir)
@@ -70,6 +72,7 @@ void	ft_free_redirs(t_redir **redir)
 		}
 		free(redir);
 	}
+	redir = NULL;
 }
 
 void	ft_free_args(char **args)

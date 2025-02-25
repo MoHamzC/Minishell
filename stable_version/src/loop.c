@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:14:06 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/25 20:39:16 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/25 21:03:47 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,9 @@ void	ft_loop(t_shell *shell)
 		shell->cmds = parse_tokens(tokens);
 		free_tokens(tokens);
 		executor(shell);
-		ft_free_commands(shell->cmds);
+		if (shell->cmds)
+			ft_free_commands(shell->cmds);
 		free(line);
 	}
 	(free(line), rl_clear_history());
-	if (shell->env)
-		free_env(shell->env);
 }
