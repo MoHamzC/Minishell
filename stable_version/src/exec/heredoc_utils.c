@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 19:35:44 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 23:01:26 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:42:03 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,12 @@ void	cleanup_heredocs(char **heredoc_fi, int count)
 
 	i = 0;
 	if (!heredoc_fi)
+	{
 		return;
+	}
 	while (i < count)
 	{
+		printf("heredoc_fi is NULLLL\n");
 		unlink(heredoc_fi[i]);
 		free(heredoc_fi[i]);
 		i++;
@@ -65,6 +68,7 @@ char *get_heredoc_filename(void)
     if (!num)
         return (NULL);
     filename = ft_strjoin("/tmp/.heredoc_", num);
+	printf("filename: %s\n", filename);
     free(num);
     return (filename);
 }

@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:29:45 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 01:22:08 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:47:14 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ static int	handle_heredoc(t_redir *redir, char **heredoc_fi, int *index)
 	heredoc_fi[*index] = get_heredoc_filename();
 	if (!heredoc_fi[*index]
 		|| create_heredoc_file(redir->file, heredoc_fi[*index]) < 0)
-		return (-1);
+		{
+			(*index)++;
+			return (-1);
+		}
 	free(redir->file);
 	redir->file = ft_strdup(heredoc_fi[*index]);
 	(*index)++;
