@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:46:39 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 16:11:14 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:17:09 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,22 @@ static int	create_output_files(t_redir **redirs)
 	i = 0;
 	while (redirs[i])
 	{
-		if (redirs[i]->type == REDIROUT || redirs[i]->type == APPEND)
+		if (redirs[i]->type == APPEND)
 		{
-			printf("file: %s\n", redirs[i]->file);
-			fd = open(redirs[i]->file, O_WRONLY | O_CREAT, 0644);
+			fd = open(redirs[i]->file, O_WRONLY | O_CREAT,  0644);
+			if (fd < 0)
+				return (print_file_error(redirs[i]->file, strerror(errno)));
+			close(fd);
+		}
+		if (redirs[i]->type == REDIROUT)
+		{
+			fd = open(redirs[i]->file, O_WRONLY | O_CREAT | O_TRUNC,  0644);
 			if (fd < 0)
 				return (print_file_error(redirs[i]->file, strerror(errno)));
 			close(fd);
 		}
 		if (redirs[i]->type == REDIRIN)
 		{
-			printf("file: %s\n", redirs[i]->file);
 			fd = open(redirs[i]->file, O_RDONLY);
 			if (fd < 0)
 				return (print_file_error(redirs[i]->file, strerror(errno)));
