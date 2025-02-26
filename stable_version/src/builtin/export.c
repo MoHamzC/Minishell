@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 20:45:23 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/26 18:05:23 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:42:17 by axburin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	error_and_free(char *key, char *value)
+{
+	ft_putstr_fd("export: `", 2);
+	ft_putstr_fd(key, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	free(key);
+	free(value);
+}
 
 bool	ift_is_valid_env_var(char *key)
 {
@@ -71,8 +80,7 @@ int	ft_export(char **args, t_shell *shell)
 		if (ift_is_valid_env_var(key))
 			push_env_var(shell, key, value);
 		else
-			return ((ft_putstr_fd("export: `", 2), 
-					ft_putstr_fd(key, 2)), ft_putstr_fd("': not a valid identifier\n", 2), 1);
+			return(error_and_free(key, value), 1);
 		(free(key), free(value));
 		i++;
 	}

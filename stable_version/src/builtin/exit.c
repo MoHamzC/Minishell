@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:12:54 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/26 15:34:21 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:25:04 by axburin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	exit_free(t_shell *shell, t_exec_data *exec)
+{
+	free_env_array(&exec->env_arr);
+	restore_std_fds(exec);
+	ft_free_commands(&shell->cmds);
+	free_env(shell->env);
+	clean_heredoc_f(shell->here_docs);
+}
 
 bool	ft_is_numeric(char *cmd)
 {
@@ -45,12 +54,7 @@ int	ft_exit(int argc, char **argv, t_shell *shell, t_exec_data *exec)
 		{
 			ft_putstr_fd("numeric argument required\n", 2);
 			exit_status = 2;
-			free_env_array(&exec->env_arr);
-			restore_std_fds(exec);
-			ft_free_commands(&shell->cmds);
-			free_env(shell->env);
-			clean_heredoc_f(shell->here_docs);
-			(exit(exit_status));
+			(exit_free(shell, exec), (exit(exit_status)));
 		}
 		exit_status = ft_atoi(argv[1]);
 	}
@@ -58,10 +62,6 @@ int	ft_exit(int argc, char **argv, t_shell *shell, t_exec_data *exec)
 		exit_status += 256;
 	exit_status %= 256;
 	printf("exit\n");
-	free_env_array(&exec->env_arr);
-	restore_std_fds(exec);
-	ft_free_commands(&shell->cmds);
-	free_env(shell->env);
-	clean_heredoc_f(shell->here_docs);
+	exit_free(shell, exec);
 	exit(exit_status);
 }
