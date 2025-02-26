@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_command.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 20:58:17 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/25 23:02:39 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:34:58 by mtarento         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,30 +52,30 @@ void	add_argument(t_command *cmd, char *arg)
 }
 
 //on ajoute redir fin tableau des redirs  et on precise le type 
-void add_redirection(t_command *cmd, t_token *token)
+void	add_redirection(t_command *cmd, t_token *token)
 {
-    t_redir **new_redir;
-    int size;
-    
-    if (!token)
-        return;
-    size = 0;
-    if (cmd->redir)
-    {
-        while (cmd->redir[size])
-            size++;
-    }
-    new_redir = realloc(cmd->redir, sizeof(t_redir *) * (size + 2));
-    if (!new_redir)
-        return;
-    cmd->redir = new_redir;
-    cmd->redir[size] = malloc(sizeof(t_redir));
-    if (!cmd->redir[size])
-        return;
-    cmd->redir[size]->file = ft_strdup(token->value);
-    cmd->redir[size]->type = token->type;
-    cmd->redir[size]->append = (token->type == APPEND);
-    cmd->redir[size + 1] = NULL;
+	t_redir	**new_redir;
+	int		size;
+
+	if (!token)
+		return ;
+	size = 0;
+	if (cmd->redir)
+	{
+		while (cmd->redir[size])
+			size++;
+	}
+	new_redir = realloc(cmd->redir, sizeof(t_redir *) * (size + 2));
+	if (!new_redir)
+		return ;
+	cmd->redir = new_redir;
+	cmd->redir[size] = malloc(sizeof(t_redir));
+	if (!cmd->redir[size])
+		return ;
+	cmd->redir[size]->file = ft_strdup(token->value);
+	cmd->redir[size]->type = token->type;
+	cmd->redir[size]->append = (token->type == APPEND);
+	cmd->redir[size + 1] = NULL;
 }
 
 //on set init parse 

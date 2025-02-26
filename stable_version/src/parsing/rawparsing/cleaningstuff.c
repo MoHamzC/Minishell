@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaningstuff.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:32:10 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/26 01:23:25 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:36:15 by mtarento         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 //not cleaning its for testing
 t_token	*create_token(char *value, t_cmd_type type, t_word_type quote)
 {
-	t_token	*token; 
-	
+	t_token	*token;
+
 	token = malloc(sizeof(t_token));
-    token->value = ft_strdup(value);
-    token->type = type;
-    token->quote = quote;
-    return (token);
+	token->value = ft_strdup(value);
+	token->type = type;
+	token->quote = quote;
+	return (token);
 }
 
 void	ft_free_tokens(t_token **tokens)
@@ -39,7 +39,6 @@ void	ft_free_tokens(t_token **tokens)
 	}
 	free(tokens);
 }
-
 
 void	ft_free_commands(t_command **command_ptr)
 {
@@ -66,8 +65,7 @@ void	ft_free_redirs(t_redir **redir)
 
 	i = 0;
 	if (!redir)
-		return;
-
+		return ;
 	while (redir[i])
 	{
 		free(redir[i]->file);

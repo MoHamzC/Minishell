@@ -6,7 +6,7 @@
 /*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/13 20:58:45 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/14 20:41:15 by mtarento         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:36:26 by mtarento         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	is_rdir_tok(t_cmd_type type)
 		|| type == APPEND || type == HERE_DOC);
 }
 
-int whichbuiltin(char *s)
+int	whichbuiltin(char *s)
 {
 	if (ft_strcmp(s, "echo") == 0)
 		return (ECHO);
