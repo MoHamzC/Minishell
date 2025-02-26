@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 20:34:05 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:38:50 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,9 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 	int 	status;
 	
 	if (handle_redirections(cmd) != 0)
-		return (restore_std_fds(exec), 1);
+		return (1);
 	if (!cmd->args || !cmd->args[0])
 		return (0);
-	backup_std_fds(exec);
 	if (is_builtin(cmd->args[0]) != NOT_BUILTIN)
 	{
 		if (cmd->next)
@@ -33,23 +32,21 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 				free_env_array(&exec->env_arr);
 				free_env(shell->env);
 				ft_free_commands(&shell->cmds);
-				restore_std_fds(exec);
 				exit(status);
 			}
-			return (free_env_array(&exec->env_arr), free_env(shell->env), restore_std_fds(exec), 0);
+			return (free_env_array(&exec->env_arr), free_env(shell->env), 0);
 		}
 		status = exec_builtin(cmd, shell->env, shell, exec);
 		free_env_array(&exec->env_arr);
-		restore_std_fds(exec);
 		return (status);
 	}
 	path_dirs = get_path_dirs(exec->env_arr);
 	cmd_path = find_command_path(cmd->args[0], path_dirs);
 	ft_free_args(path_dirs);
 	if (!cmd_path)
-		return (handle_cmd_not_found(cmd->args[0]),restore_std_fds(exec),clean_heredoc_f(shell->here_docs), 127);
+		return (handle_cmd_not_found(cmd->args[0]), clean_heredoc_f(shell->here_docs), 127);
 	if (execve(cmd_path, cmd->args, exec->env_arr) == -1)
-		return (free(cmd_path), print_exec_error(cmd->args[0], strerror(errno)),restore_std_fds(exec),126);
+		return (free(cmd_path), print_exec_error(cmd->args[0], strerror(errno)), 126);
 	return (0);
 }
 
