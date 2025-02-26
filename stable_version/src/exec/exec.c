@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 00:52:02 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 01:51:59 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int	executor(t_shell *shell)
 	{
 		clean_heredoc_f(heredoc_files);
 		free_env_array(&exec.env_arr);
+		ft_free_commands(&shell->cmds);
 		return (1);
 	}
 	if (is_single_builtin(current))
@@ -98,9 +99,9 @@ int	executor(t_shell *shell)
 		{
 			status = exec_command(shell, current, &exec, &pipe_data);
 			free_env_array(&exec.env_arr);
-			if (!current->next)
-				free_env(shell->env);
+			free_env(shell->env);
 			ft_free_commands(&shell->cmds);
+			clean_heredoc_f(heredoc_files);
 			exit(status);
 		}
 		pipe_data.prev_pipe_read = update_pipe_read(pipe_data.prev_pipe_read,

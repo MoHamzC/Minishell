@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:32:10 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/26 00:49:03 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 01:23:25 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,14 @@ void	ft_free_redirs(t_redir **redir)
 	i = 0;
 	if (!redir)
 		return;
-	if (redir)
+
+	while (redir[i])
 	{
-		while (redir[i])
-		{
-			free(redir[i]->file);
-			free(redir[i]);
-			i++;
-		}
-		free(redir);
+		free(redir[i]->file);
+		free(redir[i]);
+		i++;
 	}
+	free(redir);
 }
 
 void	ft_free_args(char **args)

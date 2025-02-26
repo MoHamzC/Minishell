@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:29:45 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 17:32:45 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/26 01:22:08 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static int	handle_heredoc(t_redir *redir, char **heredoc_fi, int *index)
 	if (!heredoc_fi[*index]
 		|| create_heredoc_file(redir->file, heredoc_fi[*index]) < 0)
 		return (-1);
+	free(redir->file);
 	redir->file = ft_strdup(heredoc_fi[*index]);
 	(*index)++;
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:25:13 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 23:00:44 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 01:50:32 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	wait_c(t_shell *shell)
 	t_command	*cmd;
 	int			status;
 
+	status = 0;
 	cmd = shell->cmds;
 	while (cmd)
 	{
