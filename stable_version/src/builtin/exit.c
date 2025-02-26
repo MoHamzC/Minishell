@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:12:54 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/24 22:13:37 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:34:21 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ bool	ft_is_numeric(char *cmd)
 	return (true);
 }
 
-int	ft_exit(int argc, char **argv, t_shell *shell)
+int	ft_exit(int argc, char **argv, t_shell *shell, t_exec_data *exec)
 {
 	int	exit_status;
 
@@ -45,7 +45,12 @@ int	ft_exit(int argc, char **argv, t_shell *shell)
 		{
 			ft_putstr_fd("numeric argument required\n", 2);
 			exit_status = 2;
-			(free(shell), exit(exit_status));
+			free_env_array(&exec->env_arr);
+			restore_std_fds(exec);
+			ft_free_commands(&shell->cmds);
+			free_env(shell->env);
+			clean_heredoc_f(shell->here_docs);
+			(exit(exit_status));
 		}
 		exit_status = ft_atoi(argv[1]);
 	}
@@ -53,5 +58,10 @@ int	ft_exit(int argc, char **argv, t_shell *shell)
 		exit_status += 256;
 	exit_status %= 256;
 	printf("exit\n");
+	free_env_array(&exec->env_arr);
+	restore_std_fds(exec);
+	ft_free_commands(&shell->cmds);
+	free_env(shell->env);
+	clean_heredoc_f(shell->here_docs);
 	exit(exit_status);
 }

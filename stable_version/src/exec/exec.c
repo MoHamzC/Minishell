@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 01:51:59 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:29:29 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 		{
 			if (cmd->pid == 0)
 			{
-				status = exec_builtin(cmd, shell->env, shell);
+				status = exec_builtin(cmd, shell->env, shell, exec);
 				free_env_array(&exec->env_arr);
 				free_env(shell->env);
 				ft_free_commands(&shell->cmds);
@@ -40,7 +40,7 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 			}
 			return (free_env_array(&exec->env_arr), free_env(shell->env), restore_std_fds(exec), 0);
 		}
-		status = exec_builtin(cmd, shell->env, shell);
+		status = exec_builtin(cmd, shell->env, shell, exec);
 		free_env_array(&exec->env_arr);
 		restore_std_fds(exec);
 		return (status);

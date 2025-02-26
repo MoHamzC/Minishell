@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:22:28 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 00:52:48 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:12:53 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtin(t_command *cmd, t_env *env, t_shell *shell)
+int	exec_builtin(t_command *cmd, t_env *env, t_shell *shell, t_exec_data *exec)
 {
 
 	if (cmd->builtin_value == ECHO)
@@ -28,6 +28,6 @@ int	exec_builtin(t_command *cmd, t_env *env, t_shell *shell)
 	else if (cmd->builtin_value == ENV)
 		shell->exit_status = ft_env(env);
 	else if (cmd->builtin_value == EXIT)
-		shell->exit_status = ft_exit(cmd->argc, cmd->args, shell);
+		shell->exit_status = ft_exit(cmd->argc, cmd->args, shell, exec);
 	return (shell->exit_status);
 }

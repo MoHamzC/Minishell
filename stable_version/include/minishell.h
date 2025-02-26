@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/25 23:19:39 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:12:32 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int 	ft_cd(t_shell *shell);
 int		change_directory(t_shell *shell, char *path);
 int		change_to_home(t_shell *shell);
 int 	ft_echo(int argc, char **argv);
-int 	ft_exit(int argc, char **argv, t_shell *shell);
+int 	ft_exit(int argc, char **argv, t_shell *shell, t_exec_data *exec);
 int 	ft_pwd(t_env *envp);
 int 	ft_export(char **args, t_shell *shell);
 int 	ft_unset(t_env *env, char **args);
@@ -167,7 +167,7 @@ int         executor(t_shell *shell);
 int         exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec);
 void        init_exec_data(t_exec_data *exec, t_shell *shell);
 void    	wait_c(t_shell *shell);
-int			exec_builtin(t_command *cmd, t_env *env, t_shell *shell);
+int			exec_builtin(t_command *cmd, t_env *env, t_shell *shell, t_exec_data *exec);
 int    		is_builtin(char *cmd);
 char 		**process_heredocs(t_command *cmds);
 void 		clean_heredoc_f(char **heredoc_files);

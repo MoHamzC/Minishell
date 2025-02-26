@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 16:21:20 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 20:17:17 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 15:12:43 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	do_builtin(t_exec_data *exec, t_command *cmd, t_shell *shell, char **files)
 	rl_outstream = stderr;
 	backup_std_fds(exec);
 	handle_redirections(cmd);
-	exec_builtin(shell->cmds, shell->env, shell);
+	exec_builtin(shell->cmds, shell->env, shell, exec);
 	restore_std_fds(exec);
 	clean_heredoc_f(files);
 	return (shell->exit_status);
