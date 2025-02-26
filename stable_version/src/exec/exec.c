@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 22:02:56 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:16:43 by mtarento         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 {
 	char	*cmd_path;
 	char	**path_dirs;
-	int 	status;
-	
+	int		status;
+
 	if (handle_redirections(cmd) != 0)
 		return (1);
 	if (!cmd->args || !cmd->args[0])
@@ -90,8 +90,8 @@ int	executor(t_shell *shell)
 	t_command	*current;
 	t_pipe_data	pipe_data;
 	char		**heredoc_files;
-	int 		status;
-	
+	int			status;
+
 	current = shell->cmds;
 	init_exec_data(&exec, shell);
 	heredoc_files = process_heredocs(shell->cmds);
