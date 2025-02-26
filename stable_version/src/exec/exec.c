@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 15:29:29 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:09:26 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 	char	**path_dirs;
 	int 	status;
 	
+	if (handle_redirections(cmd) != 0)
+		return (restore_std_fds(exec), 1);
 	if (!cmd->args || !cmd->args[0])
 		return (0);
 	backup_std_fds(exec);
-	if (handle_redirections(cmd) != 0)
-		return (restore_std_fds(exec), 1);
 	if (is_builtin(cmd->args[0]) != NOT_BUILTIN)
 	{
 		if (cmd->next)
