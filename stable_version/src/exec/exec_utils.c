@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:25:13 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 16:43:28 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 20:27:34 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,15 @@ void	restore_std_fds(t_exec_data *exec)
 void clean_heredoc_f(char **heredoc_files)
 {
     int count = 0;
-    if (!heredoc_files)
+    
+	if (!heredoc_files)
         return;
-    while (heredoc_files[count])
+	printf("La cleaning heredoc files\n");
+	if (!heredoc_files[0])
+		return;	
+    
+	while (heredoc_files[count])
         count++;
     cleanup_heredocs(heredoc_files, count);
+	heredoc_files = NULL;
 }
