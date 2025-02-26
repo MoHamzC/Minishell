@@ -6,7 +6,7 @@
 /*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 21:47:14 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:02:56 by axburin-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ static	int exec_builtin_command(t_command *cmd, t_shell *shell, t_exec_data *exe
 		{
 			if (cmd->pid == 0)
 			{
-				 status = exec_builtin(cmd, shell->env, shell, exec);
-				 free_env_array(&exec->env_arr);
-				 free_env(shell->env);
-				 ft_free_commands(&shell->cmds);
-				 exit(status);
+				status = exec_builtin(cmd, shell->env, shell, exec);
+				free_env_array(&exec->env_arr);
+				free_env(shell->env);
+				ft_free_commands(&shell->cmds);
+				exit(status);
 			}
 			return (free_env_array(&exec->env_arr), free_env(shell->env), 0);
 		}
