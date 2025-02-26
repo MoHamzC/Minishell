@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:37:57 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 22:07:12 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:43:42 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,21 @@ char	**env_list_to_array(t_env *env)
 	return (arr);
 }
 
-void free_env_array(char ***env_arr_ptr)
+void	free_env_array(char ***env_arr_ptr)
 {
-    char **env_arr = *env_arr_ptr;
-    int i = 0;
+	char	**env_arr;
+	int		i;
 
-    if (!env_arr)
-        return;
-
-    while (env_arr[i])
-    {
-        free(env_arr[i]);
-        env_arr[i] = NULL;
-        i++;
-    }
-    free(env_arr);
-    *env_arr_ptr = NULL;
+	i = 0;
+	env_arr = *env_arr_ptr;
+	if (!env_arr)
+		return ;
+	while (env_arr[i])
+	{
+		free(env_arr[i]);
+		env_arr[i] = NULL;
+		i++;
+	}
+	free(env_arr);
+	*env_arr_ptr = NULL;
 }
