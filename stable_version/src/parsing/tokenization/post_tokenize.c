@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 03:44:53 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/23 17:28:16 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:26:03 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	check_pipe_errors(t_token **tokens)
 	i = 0;
 	if (tokens[0] && tokens[0]->type == PIPE)
 	{
-		ft_putstr_fd("Syntax error: pipe en debut de commande\n", 2);
+		ft_putstr_fd("Syntax error: pipe error\n", 2);
 		return (0);
 	}
 	while (tokens[i])
@@ -84,7 +84,7 @@ int	check_pipe_errors(t_token **tokens)
 		{
 			if (!tokens[i + 1] || tokens[i + 1]->type == PIPE)
 			{
-				ft_putstr_fd("Syntax error: pipe mal place\n", 2);
+				ft_putstr_fd("Syntax error: pipe error\n", 2);
 				return (0);
 			}
 		}
@@ -101,11 +101,11 @@ int	check_redirection_errors(t_token **tokens)
 	while (tokens[i])
 	{
 		if (is_redir_token(tokens[i]->type) && three_redir(tokens[i]->value))
-			return (ft_putstr_fd("Syntax error: trop de redirections\n", 2), 0);
+			return (ft_putstr_fd("Syntax error\n", 2), 0);
 		if (is_redir_token(tokens[i]->type))
 		{
 			if (!tokens[i + 1] || tokens[i + 1]->type != WORD)
-				return (ft_putstr_fd("Syntax error: redirection mal forme\n",
+				return (ft_putstr_fd("Syntax error\n",
 						2), 0);
 		}
 		i++;

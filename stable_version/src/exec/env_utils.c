@@ -6,7 +6,7 @@
 /*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:37:57 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 21:43:42 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:57:49 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ void	free_env_array(char ***env_arr_ptr)
 	char	**env_arr;
 	int		i;
 
-	i = 0;
 	env_arr = *env_arr_ptr;
+	i = 0;
 	if (!env_arr)
 		return ;
 	while (env_arr[i])

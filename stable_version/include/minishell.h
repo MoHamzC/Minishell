@@ -6,7 +6,7 @@
 /*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/26 21:41:00 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:58:01 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,8 +214,10 @@ int			print_file_error(char *file, char *error);
 void		exit_with_error(char *msg, int code);
 
 /* Pipe handling */
-int			setup_pipes(t_pipe_ends *pipes);
-void		close_pipe_ends(t_pipe_ends *pipes);
-void		ft_free_args(char **args);
+int         setup_pipes(t_pipe_ends *pipes);
+void        close_pipe_ends(t_pipe_ends *pipes);
+
+void ft_free_args(char **args);
+int	process_redirection(t_redir *redir, int type);
 
 #endif
