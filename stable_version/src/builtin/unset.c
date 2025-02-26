@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 13:35:45 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/23 14:11:40 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:02:45 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,45 +14,47 @@
 
 int	ft_key_compare(char *env_variable, char *key)
 {
-	return (ft_strncmp(env_variable, key, ft_strlen(key)) == 0
-		&& env_variable[ft_strlen(key)] == '=');
+    return (ft_strncmp(env_variable, key, ft_strlen(key)) == 0);
 }
 
-void	ft_del_env_var(t_env *envp, char *key)
+void	ft_del_env_var(t_env **envp, char *key)
 {
-	t_env	*current;
-	t_env	*previous;
+    t_env	*current;
+    t_env	*previous;
 
-	current = envp;
-	previous = NULL;
-	if (current && ft_key_compare(current->key, key))
-	{
-		envp = current->next;
-		(free(current->key), free(current->value), free(current));
-		return ;
-	}
-	while (current->next)
-	{
-		if (ft_key_compare(current->key, key))
-		{
-			previous->next = current->next;
-			(free(current->key), free(current->value), free(current));
-			return ;
-		}
-	}
-	previous = current;
-	current = current->next;
+    current = *envp;
+    previous = NULL;
+    if (current && ft_key_compare(current->key, key))
+    {
+        *envp = current->next;
+        free(current->key);
+        (free(current->value), free(current));
+        return;
+    }
+    while (current)
+    {
+        if (ft_key_compare(current->key, key))
+        {
+            previous->next = current->next;
+            free(current->key);
+            free(current->value);
+            free(current);
+            return;
+        }
+        previous = current;
+        current = current->next;
+    }
 }
 
-int	ft_unset(t_env *env, char **args)
+int	ft_unset(t_env **env, char **args)
 {
-	int	i;
+    int	i;
 
-	i = 1;
-	while (args[i])
-	{
-		ft_del_env_var(env, args[i]);
-		i++;
-	}
-	return (0);
+    i = 1;
+    while (args[i])
+    {
+        ft_del_env_var(env, args[i]);
+        i++;
+    }
+    return (0);
 }

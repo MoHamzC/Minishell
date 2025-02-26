@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 17:10:25 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 17:38:22 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,11 @@ int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 	}
 	path_dirs = get_path_dirs(exec->env_arr);
 	cmd_path = find_command_path(cmd->args[0], path_dirs);
-	printf("cmd_path: %s\n", cmd_path);
 	ft_free_args(path_dirs);
 	if (!cmd_path)
 		return (handle_cmd_not_found(cmd->args[0]),restore_std_fds(exec),clean_heredoc_f(shell->here_docs), 127);
-	printf("2 cmd_path: %s\n", cmd_path);
 	if (execve(cmd_path, cmd->args, exec->env_arr) == -1)
 		return (free(cmd_path), print_exec_error(cmd->args[0], strerror(errno)),restore_std_fds(exec),126);
-	printf("3 cmd_path: %s\n", cmd_path);
 	return (0);
 }
 

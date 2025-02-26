@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 20:45:23 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/23 13:52:04 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/26 18:05:23 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,15 @@ int	ft_export(char **args, t_shell *shell)
 		j = 0;
 		while (args[i][j] && args[i][j] != '=')
 			j++;
+		if (j == (int)ft_strlen(args[i]))
+			return (1);
 		key = ft_substr(args[i], 0, j);
 		value = ft_substr(args[i], j + 1, ft_strlen(args[i]) - j - 1);
 		if (ift_is_valid_env_var(key))
 			push_env_var(shell, key, value);
 		else
-		{
-			(ft_putstr_fd("export: `", 2), ft_putstr_fd(key, 2));
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			return (1);
-		}
+			return ((ft_putstr_fd("export: `", 2), 
+					ft_putstr_fd(key, 2)), ft_putstr_fd("': not a valid identifier\n", 2), 1);
 		(free(key), free(value));
 		i++;
 	}
