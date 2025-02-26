@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:46:39 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 16:17:09 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:45:05 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,35 +29,17 @@ static t_redir	*get_last_redir_of_type(t_redir **redirs, int type)
 	return (last);
 }
 
-static int	create_output_files(t_redir **redirs)
+int	create_output_files(t_redir **redirs)
 {
 	int	i;
-	int	fd;
+	int	ret;
 
 	i = 0;
 	while (redirs[i])
 	{
-		if (redirs[i]->type == APPEND)
-		{
-			fd = open(redirs[i]->file, O_WRONLY | O_CREAT,  0644);
-			if (fd < 0)
-				return (print_file_error(redirs[i]->file, strerror(errno)));
-			close(fd);
-		}
-		if (redirs[i]->type == REDIROUT)
-		{
-			fd = open(redirs[i]->file, O_WRONLY | O_CREAT | O_TRUNC,  0644);
-			if (fd < 0)
-				return (print_file_error(redirs[i]->file, strerror(errno)));
-			close(fd);
-		}
-		if (redirs[i]->type == REDIRIN)
-		{
-			fd = open(redirs[i]->file, O_RDONLY);
-			if (fd < 0)
-				return (print_file_error(redirs[i]->file, strerror(errno)));
-			close(fd);
-		}
+		ret = process_redirection(redirs[i], redirs[i]->type);
+		if (ret)
+			return (ret);
 		i++;
 	}
 	return (0);
