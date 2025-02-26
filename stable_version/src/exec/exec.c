@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 16:24:26 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 16:51:24 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int	executor(t_shell *shell)
 	shell->here_docs = heredoc_files;
 	if (verif_heredoc(heredoc_files, current, shell) == 1)
 	{
-		printf("heredoc error\n");
 		clean_heredoc_f(heredoc_files);
 		free_env_array(&exec.env_arr);
 		ft_free_commands(&shell->cmds);
