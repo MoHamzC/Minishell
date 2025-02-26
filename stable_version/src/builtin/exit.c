@@ -6,62 +6,62 @@
 /*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:12:54 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/26 15:34:21 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:16:27 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_is_numeric(char *cmd)
+static void    exit_free(t_shell *shell, t_exec_data *exec)
 {
-	int	i;
-
-	i = 0;
-	if (cmd[i] == '-' || cmd[i] == '+')
-		i++;
-	while (cmd[i])
-	{
-		if (!ft_isdigit(cmd[i]))
-			return (false);
-		i++;
-	}
-	return (true);
+    free_env_array(&exec->env_arr);
+    restore_std_fds(exec);
+    ft_free_commands(&shell->cmds);
+    free_env(shell->env);
+    clean_heredoc_f(shell->here_docs);
 }
 
-int	ft_exit(int argc, char **argv, t_shell *shell, t_exec_data *exec)
+bool    ft_is_numeric(char *cmd)
 {
-	int	exit_status;
+    int    i;
 
-	exit_status = 0;
-	if (argc > 2)
-	{
-		ft_putstr_fd("too many arguments\n", 2);
-		shell->exit_status = 1;
-		return (-1);
-	}
-	if (argc == 2)
-	{
-		if (!ft_is_numeric(argv[1]))
-		{
-			ft_putstr_fd("numeric argument required\n", 2);
-			exit_status = 2;
-			free_env_array(&exec->env_arr);
-			restore_std_fds(exec);
-			ft_free_commands(&shell->cmds);
-			free_env(shell->env);
-			clean_heredoc_f(shell->here_docs);
-			(exit(exit_status));
-		}
-		exit_status = ft_atoi(argv[1]);
-	}
-	if (exit_status < 0)
-		exit_status += 256;
-	exit_status %= 256;
-	printf("exit\n");
-	free_env_array(&exec->env_arr);
-	restore_std_fds(exec);
-	ft_free_commands(&shell->cmds);
-	free_env(shell->env);
-	clean_heredoc_f(shell->here_docs);
-	exit(exit_status);
+    i = 0;
+    if (cmd[i] == '-' || cmd[i] == '+')
+        i++;
+    while (cmd[i])
+    {
+        if (!ft_isdigit(cmd[i]))
+            return (false);
+        i++;
+    }
+    return (true);
+}
+
+int    ft_exit(int argc, char **argv, t_shell *shell, t_exec_data *exec)
+{
+    int    exit_status;
+
+    exit_status = 0;
+    if (argc > 2)
+    {
+        ft_putstr_fd("too many arguments\n", 2);
+        shell->exit_status = 1;
+        return (-1);
+    }
+    if (argc == 2)
+    {
+        if (!ft_is_numeric(argv[1]))
+        {
+            ft_putstr_fd("numeric argument required\n", 2);
+            exit_status = 2;
+            (exit_free(shell, exec), (exit(exit_status)));
+        }
+        exit_status = ft_atoi(argv[1]);
+    }
+    if (exit_status < 0)
+        exit_status += 256;
+    exit_status %= 256;
+    printf("exit\n");
+    exit_free(shell, exec);
+    exit(exit_status);
 }
