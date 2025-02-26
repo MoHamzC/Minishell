@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 17:14:06 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/26 18:12:48 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:06:09 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	ft_loop(t_shell *shell)
 
 	while (1)
 	{
+		g_sig_received = 0;
 		line = readline("\033[0;31mM\033[0;33m2\033[0;31mAC-Shell$\033[0m");
 		if (!line)
 			break ;

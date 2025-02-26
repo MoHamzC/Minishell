@@ -6,13 +6,11 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:27:52 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 17:38:22 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/26 19:06:14 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-volatile sig_atomic_t	g_sig_received = 0;
 
 int	exec_single_cmd(t_shell *shell, t_command *cmd, t_exec_data *exec)
 {
@@ -87,6 +85,7 @@ int	executor(t_shell *shell)
 	{
 		status = do_builtin(&exec, current, shell, heredoc_files);
 		free_env_array(&exec.env_arr);
+		g_sig_received = 0;
 		return (status);
 	}
 	pipe_data.prev_pipe_read = -1;
@@ -107,7 +106,7 @@ int	executor(t_shell *shell)
 				current, pipe_data.pipe_fds);
 		current = current->next;
 	}
-	g_sig_received = 0;
+	g_sig_received = 2;
 	free_env_array(&exec.env_arr);
 	return (wait_c(shell), clean_heredoc_f(heredoc_files), shell->exit_status);
 }
