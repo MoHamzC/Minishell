@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/26 21:58:01 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/26 22:20:47 by mtarento         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void		free_tokens(t_token **tokens);
 void		show_tokens(t_token **tokens);
 t_env		*ft_envlst_new(char *key, char *value);
 void		ft_envlst_add_back(t_env **lst, t_env *new);
-t_env		init_env(char **envp);
+t_env		*init_env(char **envp);
 void		free_env(t_env *env);
 t_token		**pre_process_redirections(t_token **tokens);
 t_token		**take_ur_token_and_leave_me_alone(char *line, t_shell *sh);
