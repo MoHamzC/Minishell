@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 19:35:44 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 20:39:07 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/26 21:27:23 by mtarento         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ int	count_heredocs(t_command *cmds)
 
 void	cleanup_heredocs(char **heredoc_fi, int count)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!heredoc_fi)
-		return;
+		return ;
 	while (i < count)
 	{
 		unlink(heredoc_fi[i]);
@@ -55,19 +55,19 @@ void	cleanup_heredocs(char **heredoc_fi, int count)
 			heredoc_fi[i] = NULL;
 		}
 		i++;
-	}	
+	}
 }
 
-char *get_heredoc_filename(void)
+char	*get_heredoc_filename(void)
 {
-    static int count = 0;
-    char *num;
-    char *filename;
+	static int	count = 0;
+	char		*num;
+	char		*filename;
 
-    num = ft_itoa(count++);
-    if (!num)
-        return (NULL);
-    filename = ft_strjoin("/tmp/.heredoc_", num);
-    free(num);
-    return (filename);
+	num = ft_itoa(count++);
+	if (!num)
+		return (NULL);
+	filename = ft_strjoin("/tmp/.heredoc_", num);
+	free(num);
+	return (filename);
 }
