@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 21:20:01 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/25 17:26:39 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/27 04:12:28 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,13 +82,13 @@ int	pipe_fork(t_command *cmds, int *pipe_fds, char **file)
 	current = cmds;
 	if (current->next && pipe(pipe_fds) < 0)
 	{
-		clean_heredoc_f(file);
+		clean_heredoc_f(file, 1);
 		return (print_file_error("pipe", strerror(errno)));
 	}
 	current->pid = fork();
 	if (current->pid < 0)
 	{
-		clean_heredoc_f(file);
+		clean_heredoc_f(file, 1);
 		return (print_file_error("fork", strerror(errno)));
 	}
 	return (current->pid);

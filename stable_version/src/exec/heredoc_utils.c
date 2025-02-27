@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 19:35:44 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 21:27:23 by mtarento         ###   ########.fr       */
+/*   Updated: 2025/02/27 03:45:53 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	count_heredocs(t_command *cmds)
 	return (count);
 }
 
-void	cleanup_heredocs(char **heredoc_fi, int count)
+void	cleanup_heredocs(char **heredoc_fi, int count, int pid)
 {
 	int	i;
 
@@ -48,7 +48,8 @@ void	cleanup_heredocs(char **heredoc_fi, int count)
 		return ;
 	while (i < count)
 	{
-		unlink(heredoc_fi[i]);
+		if (pid == 0)
+			unlink(heredoc_fi[i]);
 		if (heredoc_fi[i])
 		{
 			free(heredoc_fi[i]);

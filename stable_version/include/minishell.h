@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 21:57:58 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/26 22:20:47 by mtarento         ###   ########.fr       */
+/*   Updated: 2025/02/27 03:33:00 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,16 @@ typedef struct s_pipe_data
 	int	prev_pipe_read;
 }	t_pipe_data;
 
+typedef struct s_executor
+{
+	t_shell	*shell;
+	t_command	*current;
+	t_exec_data	*exec;
+	t_pipe_data	*pipe_data;
+	char	**heredoc_files;
+	int		status;
+}	t_executor;
+
 //  create_command.c
 t_token		*create_token(char *value, t_cmd_type type, t_word_type quote);
 t_command	*new_command(void);
@@ -172,10 +182,10 @@ int			exec_builtin(t_command *cmd, t_env *env, t_shell *shell,
 				t_exec_data *exec);
 int			is_builtin(char *cmd);
 char		**process_heredocs(t_command *cmds);
-void		clean_heredoc_f(char **heredoc_files);
+void		clean_heredoc_f(char **heredoc_files, int pid);
 void		error_line2(int fd, char *line);
 int			count_heredocs(t_command *cmds);
-void		cleanup_heredocs(char **heredoc_fi, int count);
+void		cleanup_heredocs(char **heredoc_fi, int count, int pid);
 char		*get_heredoc_filename(void);
 int			cmd_size(t_command	*cmds);
 int			cmd_size_redi(t_command *cmds);
@@ -219,5 +229,10 @@ void        close_pipe_ends(t_pipe_ends *pipes);
 
 void ft_free_args(char **args);
 int	process_redirection(t_redir *redir, int type);
+
+int handle_hrdc_e(t_executor *executor);
+int handle_btn_e(t_executor *executor);
+int execute_cmd_e(t_executor *executor);
+void init_executor(t_executor *executor, t_shell *shell, t_exec_data *exec, t_pipe_data *pipe_data);
 
 #endif

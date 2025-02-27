@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:25:13 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 21:57:55 by calberti         ###   ########.fr       */
+/*   Updated: 2025/02/27 03:32:23 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	restore_std_fds(t_exec_data *exec)
 	}
 }
 
-void	clean_heredoc_f(char **heredoc_files)
+void	clean_heredoc_f(char **heredoc_files, int pid)
 {
 	int	count;
 
@@ -85,6 +85,6 @@ void	clean_heredoc_f(char **heredoc_files)
 		return ;
 	while (heredoc_files[count])
 		count++;
-	cleanup_heredocs(heredoc_files, count);
+	cleanup_heredocs(heredoc_files, count, pid);
 	heredoc_files = NULL;
 }

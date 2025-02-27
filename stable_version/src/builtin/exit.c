@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: axburin- <axburin-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:12:54 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/26 21:22:15 by axburin-         ###   ########.fr       */
+/*   Updated: 2025/02/27 03:34:19 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	exit_free(t_shell *shell, t_exec_data *exec)
 	restore_std_fds(exec);
 	ft_free_commands(&shell->cmds);
 	free_env(shell->env);
-	clean_heredoc_f(shell->here_docs);
+	clean_heredoc_f(shell->here_docs, 1);
+	free(shell->here_docs);
 }
 
 bool	ft_is_numeric(char *cmd)
@@ -61,7 +62,6 @@ int	ft_exit(int argc, char **argv, t_shell *shell, t_exec_data *exec)
 	if (exit_status < 0)
 		exit_status += 256;
 	exit_status %= 256;
-	printf("exit\n");
 	exit_free(shell, exec);
 	exit(exit_status);
 }

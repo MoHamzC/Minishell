@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:29:45 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/26 21:24:23 by mtarento         ###   ########.fr       */
+/*   Updated: 2025/02/27 03:44:59 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ static int	process_each_heredoc(t_command *cmds, char **heredoc_fi)
 		while (cmds->redir && cmds->redir[++i] && !g_heredoc_interrupted)
 		{
 			if (cmds->redir[i]->type == HERE_DOC
-				&& handle_heredoc(cmds->redir[i], heredoc_fi, &index) < 0)
+				&& (handle_heredoc(cmds->redir[i], heredoc_fi, &index) < 0))
 			{
-				cleanup_heredocs(heredoc_fi, index);
+				cleanup_heredocs(heredoc_fi, index, 1);
 				return (-1);
 			}
 		}
@@ -106,7 +106,10 @@ char	**process_heredocs(t_command *cmds)
 	sigaction(SIGINT, &sa_new, &sa_old);
 	g_heredoc_interrupted = 0;
 	if (process_each_heredoc(cmds, heredoc_fi) < 0 || g_heredoc_interrupted)
+	{
+		free(heredoc_fi);
 		return (sigaction(SIGINT, &sa_old, NULL), NULL);
+	}
 	sigaction(SIGINT, &sa_old, NULL);
 	heredoc_fi[heredoc_count] = NULL;
 	return (heredoc_fi);
