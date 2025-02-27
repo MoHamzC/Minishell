@@ -6,11 +6,11 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 22:06:32 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/13 18:12:37 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/27 04:24:44 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "get_next_line.h"
+#include "get_next_line.h"
 
 char	*ft_strchr_gnl(const char *s, int c)
 {

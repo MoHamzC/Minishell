@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/27 01:05:18 by mochamsa          #+#    #+#             */
-/*   Updated: 2025/02/27 04:10:59 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/27 04:16:50 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	handle_hrdc_e(t_executor *executor)
 	{
 		clean_heredoc_f(executor->heredoc_files, 1);
 		free_env_array(&executor->exec->env_arr);
-		ft_free_commands(&executor->shell->cmds);
+		frcm(&executor->shell->cmds);
 		return (1);
 	}
 	return (0);
@@ -56,7 +56,7 @@ int	execute_cmd_e(t_executor *executor)
 			status = exec_command(executor->shell, executor->current,
 					executor->exec, pipe_data);
 			free_env_array(&executor->exec->env_arr);
-			(free_env(executor->shell->env), ft_free_commands(&executor->shell->cmds));
+			(free_env(executor->shell->env), frcm(&executor->shell->cmds));
 			clean_heredoc_f(executor->heredoc_files, 0);
 			free(executor->heredoc_files);
 			executor->heredoc_files = NULL;

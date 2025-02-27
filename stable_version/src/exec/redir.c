@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:46:39 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/27 03:16:55 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/27 04:14:12 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ int	handle_input_redir(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
-	{
-		//printf("error\n");
 		return (print_file_error(file, strerror(errno)));
-	}
 	if (dup2(fd, STDIN_FILENO) < 0)
 	{
 		printf("2 error\n");

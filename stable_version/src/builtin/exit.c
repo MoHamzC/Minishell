@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/12 19:12:54 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/27 03:34:19 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/27 04:16:50 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	exit_free(t_shell *shell, t_exec_data *exec)
 {
 	free_env_array(&exec->env_arr);
 	restore_std_fds(exec);
-	ft_free_commands(&shell->cmds);
+	frcm(&shell->cmds);
 	free_env(shell->env);
 	clean_heredoc_f(shell->here_docs, 1);
 	free(shell->here_docs);

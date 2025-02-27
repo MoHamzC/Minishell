@@ -6,13 +6,13 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:31:10 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/27 02:21:31 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/27 04:22:25 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t g_sig_received = 0;
+volatile sig_atomic_t	g_sig_received = 0;
 
 void	handle_sigint(int sig)
 {
@@ -56,21 +56,21 @@ void	free_env(t_env *env)
 
 int	main(int argc, char **argv, char **envp)
 {
-    t_shell             shell;
-    struct sigaction    sa;
+	t_shell				shell;
+	struct sigaction	sa;
 
-    (void)argc;
-    (void)argv;
-
-  	rl_outstream = stderr;
+	(void)argc;
+	(void)argv;
+	rl_outstream = stderr;
 	sa.sa_handler = handle_sigint;
 	sa.sa_flags = 0;
 	sigemptyset(&sa.sa_mask);
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
-    shell.env = init_env(envp);
+	shell.env = init_env(envp);
 	shell.exit_status = 0;
-    ft_loop(&shell);
-    free_env(shell.env);
-    return (0);
+	g_sig_received = 0;
+	ft_loop(&shell);
+	free_env(shell.env);
+	return (0);
 }

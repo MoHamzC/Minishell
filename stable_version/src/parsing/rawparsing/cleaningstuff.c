@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaningstuff.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mtarento <mtarento@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 20:32:10 by mtarento          #+#    #+#             */
-/*   Updated: 2025/02/26 19:36:15 by mtarento         ###   ########.fr       */
+/*   Updated: 2025/02/27 04:16:50 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_free_tokens(t_token **tokens)
 	free(tokens);
 }
 
-void	ft_free_commands(t_command **command_ptr)
+void	frcm(t_command **command_ptr)
 {
 	t_command	*current;
 	t_command	*next;

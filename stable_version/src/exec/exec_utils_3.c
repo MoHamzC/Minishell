@@ -6,7 +6,7 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/25 16:21:20 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/27 03:34:25 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/27 04:13:25 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	do_builtin(t_exec_data *exec, t_command *cmd, t_shell *shell, char **files)
 	handle_redirections(cmd);
 	exec_builtin(shell->cmds, shell->env, shell, exec);
 	restore_std_fds(exec);
-	clean_heredoc_f(files,1);
+	clean_heredoc_f(files, 1);
 	return (shell->exit_status);
 }
 
