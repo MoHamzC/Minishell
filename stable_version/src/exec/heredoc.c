@@ -6,18 +6,18 @@
 /*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 16:29:45 by calberti          #+#    #+#             */
-/*   Updated: 2025/02/27 03:44:59 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/27 06:56:54 by mochamsa         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	g_heredoc_interrupted = 0;
+static int	g_sig_received = 0;
 
 static void	heredoc_sigint_handler(int sig)
 {
 	(void)sig;
-	g_heredoc_interrupted = 1;
+	g_sig_received = 1;
 	write(1, "\n", 1);
 }
 
@@ -31,10 +31,10 @@ static int	create_heredoc_file(char *delimiter, char *filename)
 	{
 		ft_putstr_fd("> ", 1);
 		line = get_next_line(STDIN_FILENO);
-		if (!line || g_heredoc_interrupted)
+		if (!line || g_sig_received)
 		{
 			error_line2(fd, line);
-			if (g_heredoc_interrupted)
+			if (g_sig_received)
 				return (close(fd), -1);
 			ft_putstr_fd("\n", 1);
 			return (close(fd), 0);
@@ -70,10 +70,10 @@ static int	process_each_heredoc(t_command *cmds, char **heredoc_fi)
 	int		i;
 
 	index = 0;
-	while (cmds && !g_heredoc_interrupted)
+	while (cmds && !g_sig_received)
 	{
 		i = -1;
-		while (cmds->redir && cmds->redir[++i] && !g_heredoc_interrupted)
+		while (cmds->redir && cmds->redir[++i] && !g_sig_received)
 		{
 			if (cmds->redir[i]->type == HERE_DOC
 				&& (handle_heredoc(cmds->redir[i], heredoc_fi, &index) < 0))
@@ -104,8 +104,8 @@ char	**process_heredocs(t_command *cmds)
 	sigemptyset(&sa_new.sa_mask);
 	sa_new.sa_flags = 0;
 	sigaction(SIGINT, &sa_new, &sa_old);
-	g_heredoc_interrupted = 0;
-	if (process_each_heredoc(cmds, heredoc_fi) < 0 || g_heredoc_interrupted)
+	g_sig_received = 0;
+	if (process_each_heredoc(cmds, heredoc_fi) < 0 || g_sig_received)
 	{
 		free(heredoc_fi);
 		return (sigaction(SIGINT, &sa_old, NULL), NULL);
