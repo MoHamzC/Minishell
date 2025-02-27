@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mochamsa <mochamsa@student.42.fr>          +#+  +:+       +#+        */
+/*   By: calberti <calberti@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/23 14:31:10 by axburin-          #+#    #+#             */
-/*   Updated: 2025/02/27 04:22:25 by mochamsa         ###   ########.fr       */
+/*   Updated: 2025/02/27 17:22:04 by calberti         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ void	handle_sigint(int sig)
 {
 	(void)sig;
 	if (g_sig_received == 1)
-	{
-		write(STDOUT_FILENO, "\n", 1);
 		g_sig_received = 0;
-	}
 	if (g_sig_received == 0)
 	{
 		write(1, "\n", 1);
@@ -34,6 +31,7 @@ void	handle_sigint(int sig)
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_sig_received = 0;
 	}
 }
 
